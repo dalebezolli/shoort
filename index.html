@@ -5,30 +5,38 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>iShort - Free URL Shortener</title>
+
+	<!-- FONTS -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+	<!-- STYLESHEETS -->
+	<link rel="stylesheet" href="main.css">
 </head>
 <body>
 
-	<header>
-		<h1>iShort</h1>	
+	<header class="site-header">
+		<h1 class="site-header__title">iShort</h1>	
 	</header>
 	
 	<main>
-		<form>
-			<label>
+		<form class="link-shortener-form">
+			<label class="link-shortener-form__label">
 				Enter a link you want shortened
-				<input type="text" placeholder="Link">
+				<input type="text" placeholder="Link" class="link-shortener-form__input">
 			</label>
 
-			<label>
+			<label class="link-shortener-form__label">
 				Customize the link&DiacriticalAcute;s name
-				<input type="text" placeholder="custom name">
+				<input type="text" placeholder="custom name" class="link-shortener-form__input">
 			</label>
 
-			<input type="submit" value="Shorten your link">
+			<input type="submit" value="Shorten your link" class="link-shortener-form__button">
 		</form>	
 	</main>
 
-	<footer>
+	<footer class="site-footer">
 		<p>Made by @dalebezolli</p>
 	</footer>
 
