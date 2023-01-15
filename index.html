@@ -24,18 +24,29 @@
 		
 		<main>
 			<form class="link-shortener-form">
-				<label class="link-shortener-form__label">
-					Enter a link you want shortened
-					<input type="text" placeholder="Link" class="link-shortener-form__input">
-				</label>
 
-				<label class="link-shortener-form__label">
-					Customize the link's name
-					<div class="link-shortener-form__input-wrapper">
-						<p>ishort.sth</p>
-						<input type="text" placeholder="custom name" class="link-shortener-form__input link-shortener-form__input--right-rounded">
+				<div>
+					<label for="link" class="link-shortener-form__label">
+						Enter a link you want shortened
+					</label>
+
+					<div class="link-shortener-form__input-border">
+						<input name="link" type="text" placeholder="Link" class="link-shortener-form__input">
 					</div>
-				</label>
+				</div>
+
+				<div>
+					<label for="custom-name" class="link-shortener-form__label">
+						Customize the link's name
+					</label>
+
+					<div class="link-shortener-form__input-border">
+						<div class="link-shortener-form__input-wrapper">
+							<p>ishort.sth</p>
+							<input name="custom-name" type="text" placeholder="custom name" class="link-shortener-form__input link-shortener-form__input--right-rounded">
+						</div>
+					</div>
+				</div>
 
 				<input type="submit" value="Shorten your link" class="link-shortener-form__button">
 			</form>	
