@@ -33,9 +33,21 @@ p, h1, h2, h3, h4, h5, h6 {
 	--color-netural-900: #111315;
 
 	--ff-primary: 'Poppins', sans-serif;
+
+	--spacing-1x: 1rem; 
+	--spacing-3x: 3rem;
+	--spacing-4x: 4rem;
+
+	--border-radius: .25rem;
 }
 
 body {
+	min-height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
 	font-family: var(--ff-primary);
 	font-size: .875rem;
 	color: var(--color-netural-400);
@@ -45,7 +57,7 @@ body {
 
 /* SITE HEADER */
 .site-header {
-	margin-block: 8rem 4rem;
+	margin-block: var(--spacing-4x) var(--spacing-3x);
 
 	text-align: center;
 }
@@ -62,21 +74,21 @@ body {
 /* MAIN */
 main {
 	margin-inline: auto;
-	margin-bottom: 8rem;
-	padding-inline: 1rem;
+	margin-bottom: var(--spacing-4x);
+	padding-inline: var(--spacing-1x);
 	max-width: 28rem;
 }
 
 .link-shortener-form {
 	display: flex;
 	flex-direction: column;
-	gap: 2.625rem;
+	gap: var(--spacing-3x);
 }
 
 .link-shortener-form__label {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: var(--spacing-1x);
 }
 
 .link-shortener-form__input {
@@ -84,7 +96,7 @@ main {
 	width: 100%;
 
 	border: 1px solid var(--color-netural-700);
-	border-radius: .5rem;
+	border-radius: var(--border-radius);
 	background-color: var(--color-netural-800);
 
 	color: var(--color-netural-500);
@@ -95,14 +107,14 @@ main {
 }
 
 .link-shortener-form__input--right-rounded {
-	border-radius: 0 .5rem .5rem 0;
+	border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
 .link-shortener-form__input-wrapper {
 	display: flex;
 	align-items: center;
 
-	border-radius: .5rem;
+	border-radius: var(--border-radius);
 	background-color: var(--color-netural-700);
 }
 
@@ -114,7 +126,7 @@ main {
 	padding-block: .75rem;
 
 	border: 0;
-	border-radius: .5rem;
+	border-radius: var(--border-radius);
 	background-color: var(--color-primary);
 
 	font-weight: bold;
@@ -123,7 +135,7 @@ main {
 
 /* SITE FOOTER */
 .site-footer {
-	padding-block: 3.375rem;
+	padding-block: var(--spacing-3x) var(--spacing-4x);
 
 	border-top: 1px solid var(--color-netural-700);
 	background-color: var(--color-netural-800);
