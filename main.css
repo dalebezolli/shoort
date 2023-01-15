@@ -44,6 +44,12 @@ body {
 }
 
 /* SITE HEADER */
+.site-header {
+	margin-block: 8rem 4rem;
+
+	text-align: center;
+}
+
 .site-header__title {
 	font-size: 2rem;
 	color: var(--color-primary);
@@ -54,9 +60,23 @@ body {
 }
 
 /* MAIN */
+main {
+	margin-inline: auto;
+	margin-bottom: 8rem;
+	padding-inline: 1rem;
+	max-width: 28rem;
+}
+
 .link-shortener-form {
 	display: flex;
 	flex-direction: column;
+	gap: 2.625rem;
+}
+
+.link-shortener-form__label {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 
 .link-shortener-form__input {
@@ -103,6 +123,10 @@ body {
 
 /* SITE FOOTER */
 .site-footer {
+	padding-block: 3.375rem;
+
 	border-top: 1px solid var(--color-netural-700);
 	background-color: var(--color-netural-800);
+
+	text-align: center;
 }
