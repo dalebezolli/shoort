@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/dalebezolli/urlshortener/issues"
   },
-  "homepage": "https://github.com/dalebezolli/urlshortener#readme"
+  "homepage": "https://github.com/dalebezolli/urlshortener#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "mysql2": "^3.0.1"
+  }
 }
