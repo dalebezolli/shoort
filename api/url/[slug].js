@@ -1,7 +1,7 @@
 require('dotenv').config();
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-export default function helper(req, res) {
+export default async function helper(req, res) {
 	if(req.method !== 'GET') 
 		return res.status(404).json({
 			'status': 'error', 
@@ -10,28 +10,29 @@ export default function helper(req, res) {
 
 	const slug = req.query.slug;
 
-	const connection = mysql.createConnection(process.env.DATABASE_URL);
+	const connection = await mysql.createConnection(process.env.DATABASE_URL);
 	connection.connect();
 
-	connection.query(
-		'SELECT * FROM `links` WHERE `name` = ?',
-		[slug],
-		function (err, rows) {
-			if(err) {
-				console.error(err);		
+	let data;
+	try {
+		const [rows] = await connection.execute(
+			'SELECT * FROM `links` WHERE `name` = ?',
+			[slug],
+		)
 
-				return res.json({
-					'status': 'error',
-					'message': 'Failed to fetch url'
-				})
-			}
+		data = rows;
+	} catch(err) {
+		console.error(err);		
 
-			return res.json({
-				'status': 'ok',
-				'message': rows 
-			});
-		}
-	);
+		return res.json({
+			'status': 'error',
+			'message': 'Failed to fetch url'
+		})
+	}
 	
 	connection.end();
+	return res.json({
+		'status': 'ok',
+		'message': data 
+	});
 }

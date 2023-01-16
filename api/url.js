@@ -1,7 +1,7 @@
 require('dotenv').config();
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-export default function helper(req, res) {
+export default async function helper(req, res) {
 	if(req.method !== 'POST') {
 		return res.status(404).json({
 			'status': 'error', 
@@ -17,28 +17,34 @@ export default function helper(req, res) {
 	}
 	const data = JSON.parse(req.body);
 
-	const connection = mysql.createConnection(process.env.DATABASE_URL);
+	const connection = await mysql.createConnection(process.env.DATABASE_URL);
 	connection.connect();
 
-	connection.query(
-		'INSERT INTO `links` (link, name) VALUES (?, ?)',
-		[data['link'], data['custom-name']],
-		function (err) {
-			if(err) {
-				console.error(err);		
+	try {
+		await connection.execute(
+			'INSERT INTO `links` (link, name) VALUES (?, ?)',
+			[data['link'], data['custom-name']]
+		)
+	} catch(err) {
+		let errorMessage;
 
-				return res.json({
-					'status': 'error',
-					'message': 'Failed to save url'
-				})
-			}
-
-			return res.json({
-				'status': 'ok',
-				'message': 'Created link'
-			});
+		switch(err.code) {
+			case 'ER_DUP_ENTRY':
+				errorMessage = 'This name is already in use';
+				break;
+			default:
+				errorMessage = 'Failed to create the short link';
 		}
-	);
-	
+
+		return res.json({
+			'status': 'error',
+			'message': errorMessage,
+		})
+	}
+
 	connection.end();
+	return res.json({
+		'status': 'ok',
+		'message': 'Created link'
+	});
 }
