@@ -13,6 +13,8 @@
 
 	<!-- STYLESHEETS -->
 	<link rel="stylesheet" href="main.css">
+
+	<script src="main.js"></script>
 </head>
 <body>
 
@@ -23,7 +25,7 @@
 		</header>
 		
 		<main>
-			<form class="link-shortener-form">
+			<form class="link-shortener-form" onsubmit="submitURL(event)">
 
 				<div>
 					<label for="link" class="link-shortener-form__label">
