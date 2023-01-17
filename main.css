@@ -92,6 +92,18 @@ main {
 	font-weight: bold;
 }
 
+.link-shortener-form__toggle-group {
+	margin-bottom: var(--spacing-1x);
+
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-1x);
+}
+
+.link-shortener-form__toggle-group .link-shortener-form__label {
+	margin-bottom: 0;
+}
+
 .link-shortener-form__input {
 	padding: .75rem 1rem;
 	width: 100%;
@@ -124,6 +136,11 @@ main {
 	transition: all 150ms ease;
 }
 
+.link-shortener-form__input-border--hidden {
+	display: none;
+}
+
+
 .link-shortener-form__input-border:focus-within {
 	background-color: var(--color-primary);
 }
@@ -138,6 +155,71 @@ main {
 
 .link-shortener-form__input-wrapper p {
 	padding-inline: 1rem;
+}
+
+.input-switch {
+	padding: 1px;
+	width: fit-content;
+	height: fit-content;
+
+	border-radius: 4rem;
+	background-image: linear-gradient(160deg, var(--color-netural-700), transparent);
+}
+
+.input-switch__toggle {
+	position: relative;
+
+	width: 4rem;
+	height: 1.875rem;
+	
+	border-radius: 4rem;
+	background-color: var(--color-netural-800);
+}
+
+.input-switch__toggle-switch {
+	content: '';
+
+	position: absolute;
+	top: 4px;
+	left: 4px;
+
+	display: grid;
+	place-content: center;
+
+	width: 22px;
+	height: 22px;
+
+	border-radius: 100%;
+	background-color: var(--color-netural-100);
+
+	transition: all 100ms ease;
+}
+
+.input-switch__toggle-switch .checkmark {
+	display: none;
+}
+
+.input-switch__control {
+	opacity: 0;
+	z-index: 10;
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	cursor: pointer;
+}
+
+.input-switch__control:checked + .input-switch__toggle-switch {
+	background-color: var(--color-primary);
+	transform: translate(calc(4rem - 22px - 8px));
+}
+
+.input-switch__control:checked + .input-switch__toggle-switch .checkmark {
+	display: block;
+}
+
+.input-switch__control:checked + .input-switch__toggle-switch .xmark {
+	display: none;
 }
 
 .link-shortener-form__button {

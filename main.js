@@ -13,3 +13,15 @@ async function submitURL(event) {
 
 	console.log((await response.text()));
 }
+
+function toggleControl(event, inputId) {
+	if(event.target.checked) {
+		document.getElementById(inputId).classList.remove("link-shortener-form__input-border--hidden");
+	} else {
+		document.getElementById(inputId).classList.add("link-shortener-form__input-border--hidden");
+	}
+}
+
+function toggleCheckboxes() {
+	document.querySelectorAll('input[type=\'checkbox\']').forEach(checkbox => checkbox.checked = false);
+}
