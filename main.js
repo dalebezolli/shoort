@@ -6,6 +6,12 @@ async function submitURL(event) {
 	const objectData = {};
 	data.forEach((value, key) => objectData[key] = value);
 
+	const urlRegex = RegExp('https?:\/\/(.*)*', 'i');
+	if(urlRegex.test(objectData.link) === false) {
+		console.log('The input specificed is not a url');
+		return;
+	}
+
 	const response = await fetch(url, {
 		method: 'POST',
 		body: JSON.stringify(objectData)
