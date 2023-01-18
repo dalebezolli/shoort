@@ -31,3 +31,14 @@ function toggleControl(event, inputId) {
 function toggleCheckboxes() {
 	document.querySelectorAll('input[type=\'checkbox\']').forEach(checkbox => checkbox.checked = false);
 }
+
+async function handleRouting() {
+	const searchParams = window.location.search;
+	if(searchParams === '') return;
+
+	const identifier = searchParams.split('=')[1];
+	const url = `./api/url/${identifier}`;
+
+	const response = await (await fetch(url, {method: 'GET'})).json();
+	console.log(response);
+}
