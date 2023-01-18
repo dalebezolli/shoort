@@ -33,6 +33,7 @@ export default async function helper(req, res) {
 	connection.end();
 	return res.json({
 		'status': 'ok',
-		'message': data[0] 
+		'message': 'Succesfully got link',
+		'data': { 'link': data[0].link}
 	});
 }

@@ -45,6 +45,7 @@ export default async function helper(req, res) {
 	connection.end();
 	return res.json({
 		'status': 'ok',
-		'message': 'Created link'
+		'message': 'Created link',
+		'data': { 'identifier': data['custom-name']}
 	});
 }
