@@ -12,6 +12,11 @@ async function submitURL(event) {
 		return;
 	}
 
+	if(objectData['custom-name'].includes(" ")) {
+		console.log('The name specified contains whitespace');
+		return;
+	}
+
 	const response = await fetch(url, {
 		method: 'POST',
 		body: JSON.stringify(objectData)
