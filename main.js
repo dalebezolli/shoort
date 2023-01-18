@@ -17,12 +17,12 @@ async function submitURL(event) {
 		return;
 	}
 
-	const response = await fetch(url, {
+	const response = await (await fetch(url, {
 		method: 'POST',
 		body: JSON.stringify(objectData)
-	});
+	})).json();
 
-	console.log((await response.text()));
+	console.log(response);
 }
 
 function toggleControl(event, inputId) {
@@ -45,5 +45,5 @@ async function handleRouting() {
 	const url = `./api/url/${identifier}`;
 
 	const response = await (await fetch(url, {method: 'GET'})).json();
-	console.log(response);
+	window.location.replace(response.data.link);
 }
