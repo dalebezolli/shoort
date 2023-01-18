@@ -6,6 +6,8 @@ async function submitURL(event) {
 	const objectData = {};
 	data.forEach((value, key) => objectData[key] = value);
 
+	console.log({objectData, data});
+
 	const urlRegex = RegExp('https?:\/\/(.*)*', 'i');
 	if(urlRegex.test(objectData.link) === false) {
 		console.log('The input specificed is not a url');
@@ -27,14 +29,16 @@ async function submitURL(event) {
 
 function toggleControl(event, inputId) {
 	if(event.target.checked) {
-		document.getElementById(inputId).classList.remove("link-shortener-form__input-border--hidden");
+		document.getElementById(inputId).classList.remove('link-shortener-form__input-border--hidden');
 	} else {
-		document.getElementById(inputId).classList.add("link-shortener-form__input-border--hidden");
+		document.getElementById(inputId).classList.add('link-shortener-form__input-border--hidden');
+		document.querySelector('input[name="custom-name"]').value = '';
 	}
 }
 
 function toggleCheckboxes() {
 	document.querySelectorAll('input[type=\'checkbox\']').forEach(checkbox => checkbox.checked = false);
+	document.querySelector('input[name="custom-name"]').value = '';
 }
 
 async function handleRouting() {
