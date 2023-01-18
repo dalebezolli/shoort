@@ -35,6 +35,11 @@ export default async function helper(req, res) {
 	const connection = await mysql.createConnection(process.env.DATABASE_URL);
 	connection.connect();
 
+	if(data['custom-name'] === '') {
+		const [rows] = await connection.execute('SELECT LEFT(MD5(RAND()), 5)');
+		data['custom-name'] = Object.values(rows[0])[0];
+	}
+
 	try {
 		await connection.execute(
 			'INSERT INTO `links` (link, name) VALUES (?, ?)',
