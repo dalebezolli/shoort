@@ -10,12 +10,27 @@ export default async function helper(req, res) {
 	}
 
 	if(req.body === undefined || Object.keys(req.body).length === 0) {
-		return res.status(404).json({
+		return res.status(400).json({
 			'status': 'error', 
 			'message': 'Data was not specified'
 		});
 	}
 	const data = JSON.parse(req.body);
+
+	const urlRegex = RegExp('https?:\/\/(.*)*', 'i');
+	if(urlRegex.test(data.link) === false) {
+		return res.status(400).json({
+			'status': 'error', 
+			'message': 'The input specificed is not a url'
+		});
+	}
+
+	if(data['custom-name'].includes(" ")) {
+		return res.status(400).json({
+			'status': 'error', 
+			'message': 'The name specified contains whitespace'
+		});
+	}
 
 	const connection = await mysql.createConnection(process.env.DATABASE_URL);
 	connection.connect();
