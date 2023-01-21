@@ -1,5 +1,7 @@
 async function submitURL(event) {
 	event.preventDefault();
+	const submitButton = document.getElementById('link-shortener-submit');
+	submitButton.disabled = 'disabled';
 
 	const url = './api/url';
 	const data = new FormData(event.target);
@@ -24,6 +26,7 @@ async function submitURL(event) {
 		body: JSON.stringify(objectData)
 	})).json();
 
+	submitButton.disabled = '';
 	console.log(response);
 }
 
