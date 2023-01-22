@@ -1,29 +1,33 @@
 const form = document.getElementById('link-shortener-form');
-form.setAttribute('novalidate', '');
 
-Array.from(form.elements).forEach(field => {
-	const errorMessageContainer = document.getElementById(`${field.name}-error`);
+function checkFormValidationAndUpdateUser() {
+	if(!form) return;
+	form.setAttribute('novalidate', '');
 
-	field.addEventListener('invalid', _ => {
-		const errorMessage = getErrorMessage(field);
-		errorMessageContainer.textContent = errorMessage || field.validationMessage;
-		errorMessageContainer.removeAttribute('hidden');
-	});
+	Array.from(form.elements).forEach(field => {
+		const errorMessageContainer = document.getElementById(`${field.name}-error`);
 
-	field.addEventListener('blur', _ => {
-		const isFormValid = field.checkValidity();
-		if(isFormValid) {
-			errorMessageContainer.setAttribute('hidden', '');
-			errorMessageContainer.textContent = '';
+		field.addEventListener('invalid', _ => {
+			const errorMessage = getErrorMessage(field);
+			errorMessageContainer.textContent = errorMessage || field.validationMessage;
+			errorMessageContainer.removeAttribute('hidden');
+		});
+
+		field.addEventListener('blur', _ => {
+			const isFormValid = field.checkValidity();
+			if(isFormValid) {
+				errorMessageContainer.setAttribute('hidden', '');
+				errorMessageContainer.textContent = '';
+			}
+		});
+
+		function getErrorMessage(field) {
+			if(field.validity.patternMismatch) {
+				if(field.name === 'custom-name') return 'Please enter a custom name without spaces.'
+			}
 		}
-	});
-
-	function getErrorMessage(field) {
-		if(field.validity.patternMismatch) {
-			if(field.name === 'custom-name') return 'Please enter a custom name without spaces.'
-		}
-	}
-})
+	})
+}
 
 async function submitURL(event) {
 	const submitButton = event.target;
@@ -112,3 +116,5 @@ function copyUrlToClipboard() {
 function goBackToRoot() {
 	window.location.replace('/');
 }
+
+checkFormValidationAndUpdateUser();
