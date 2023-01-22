@@ -15,7 +15,7 @@ export default async function helper(req, res) {
 			'message': 'Data was not specified'
 		});
 	}
-	const data = JSON.parse(req.body);
+	const data = req.body;
 
 	const urlRegex = RegExp('https?:\/\/(.*)*', 'i');
 	if(urlRegex.test(data.link) === false) {
