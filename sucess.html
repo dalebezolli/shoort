@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>iShort - Shortened url sucessfully</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="main.css">
+
+	<script src="./main.js"></script>
+</head>
+<body onload="loadUrlFromLocalStorage()">
+	<div>
+
+		<header class="site-header">
+			<h1 class="site-header__title">iShort</h1>	
+		</header>
+		
+		<main>
+			<p><b>Here's your link:</b></p>
+			<div class="shortened-url-block">
+				<div class="shortened-url-wrapper">
+					<p class="shortened-url" id="shortened-url"></p>
+				</div>
+				<button class="copy-url-button" onmouseup="copyUrlToClipboard()">Copy</button>
+			</div>
+		</main>
+
+	</div>
+
+	<footer class="site-footer">
+		<p>Made by @dalebezolli</p>
+	</footer>
+</body>
+</html>

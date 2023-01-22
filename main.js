@@ -27,7 +27,8 @@ async function submitURL(event) {
 	})).json();
 
 	submitButton.disabled = '';
-	console.log(response);
+	localStorage.setItem('identifier', response.data.identifier);
+	window.location.replace('/sucess.html');
 }
 
 function toggleControl(event, inputId) {
@@ -53,4 +54,26 @@ async function handleRouting() {
 
 	const response = await (await fetch(url, {method: 'GET'})).json();
 	window.location.replace(response.data.link);
+}
+
+function loadUrlFromLocalStorage() {
+	const domain = 'localhost:3000';
+	const savedUrlPath = localStorage.getItem('identifier');
+	const shortenedUrlParagraph = document.getElementById('shortened-url');
+	if(!savedUrlPath) {
+		console.error('Error: Falied to get identifier from localstorage');
+		return;
+	}
+
+	shortenedUrlParagraph.textContent = `${domain}/l/${savedUrlPath}`;
+}
+
+function copyUrlToClipboard() {
+	const generatedUrl = document.getElementById('shortened-url').textContent;
+	navigator.clipboard.writeText(generatedUrl)
+		.then(function() {
+			console.log('Copied successfully');
+		}, function(err) {
+			console.error('Failed to copy text to clipboard');
+		})
 }
