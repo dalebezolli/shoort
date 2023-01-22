@@ -1,25 +1,45 @@
+const form = document.getElementById('link-shortener-form');
+form.setAttribute('novalidate', '');
+
+Array.from(form.elements).forEach(field => {
+	const errorMessageContainer = document.getElementById(`${field.name}-error`);
+
+	field.addEventListener('invalid', _ => {
+		const errorMessage = getErrorMessage(field);
+		errorMessageContainer.textContent = errorMessage || field.validationMessage;
+		errorMessageContainer.removeAttribute('hidden');
+	});
+
+	field.addEventListener('blur', _ => {
+		const isFormValid = field.checkValidity();
+		if(isFormValid) {
+			errorMessageContainer.setAttribute('hidden', '');
+			errorMessageContainer.textContent = '';
+		}
+	});
+
+	function getErrorMessage(field) {
+		if(field.validity.patternMismatch) {
+			if(field.name === 'custom-name') return 'Please enter a custom name without spaces.'
+		}
+	}
+})
+
 async function submitURL(event) {
-	event.preventDefault();
-	const submitButton = document.getElementById('link-shortener-submit');
+	const submitButton = event.target;
 	submitButton.disabled = 'disabled';
 
+	const isFormValid = form.checkValidity();
+	if(!isFormValid) {
+		console.error('Invalid form');
+		event.preventDefault();
+		return;
+	}
+
 	const url = './api/url';
-	const data = new FormData(event.target);
+	const data = new FormData(form);
 	const objectData = {};
 	data.forEach((value, key) => objectData[key] = value);
-
-	console.log({objectData, data});
-
-	const urlRegex = RegExp('https?:\/\/(.*)*', 'i');
-	if(urlRegex.test(objectData.link) === false) {
-		console.log('The input specificed is not a url');
-		return;
-	}
-
-	if(objectData['custom-name'].includes(" ")) {
-		console.log('The name specified contains whitespace');
-		return;
-	}
 
 	const response = await (await fetch(url, {
 		method: 'POST',
@@ -32,11 +52,18 @@ async function submitURL(event) {
 }
 
 function toggleControl(event, inputId) {
+	const customNameInputField = document.querySelector('input[name="custom-name"]');
+	const customNameErrorMessageContainer = document.getElementById('custom-name-error');
+
 	if(event.target.checked) {
 		document.getElementById(inputId).classList.remove('link-shortener-form__input-border--hidden');
+		customNameInputField.setAttribute('required', '');
 	} else {
 		document.getElementById(inputId).classList.add('link-shortener-form__input-border--hidden');
-		document.querySelector('input[name="custom-name"]').value = '';
+		customNameInputField.value = '';
+		customNameInputField.removeAttribute('required');
+		customNameErrorMessageContainer.setAttribute('hidden', '');
+		customNameErrorMessageContainer.textContent = '';
 	}
 }
 

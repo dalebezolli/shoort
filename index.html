@@ -14,7 +14,7 @@
 	<!-- STYLESHEETS -->
 	<link rel="stylesheet" href="main.css">
 
-	<script src="main.js"></script>
+	<script src="main.js" defer></script>
 </head>
 <body onload="toggleCheckboxes(); handleRouting();">
 	<div>
@@ -24,7 +24,7 @@
 		</header>
 		
 		<main>
-			<form class="link-shortener-form" onsubmit="submitURL(event)">
+			<form class="link-shortener-form" id="link-shortener-form">
 
 				<div>
 					<label for="link" class="link-shortener-form__label">
@@ -32,8 +32,10 @@
 					</label>
 
 					<div class="link-shortener-form__input-border">
-						<input name="link" type="text" placeholder="Link" class="link-shortener-form__input">
+						<input name="link" type="url" placeholder="Link" class="link-shortener-form__input" aria-describedby="link-error" required>
 					</div>
+
+					<div id="link-error" class="form-error" hidden></div>
 				</div>
 
 				<div>
@@ -56,12 +58,14 @@
 					<div id="input-custom-name" class="link-shortener-form__input-border link-shortener-form__input-border--hidden">
 						<div class="link-shortener-form__input-wrapper">
 							<p>ishort.sth</p>
-							<input name="custom-name" type="text" placeholder="custom name" class="link-shortener-form__input link-shortener-form__input--right-rounded">
+							<input name="custom-name" type="text" placeholder="custom name" class="link-shortener-form__input link-shortener-form__input--right-rounded" pattern="^[^\s]*(-[^\s]*)*$">
 						</div>
 					</div>
+
+					<div id="custom-name-error" class="form-error" hidden></div>
 				</div>
 
-				<input type="submit" value="Shorten your link" class="link-shortener-form__button" id="link-shortener-submit">
+				<input type="submit" value="Shorten your link" class="link-shortener-form__button" id="link-shortener-submit" onclick="submitURL(event)">
 			</form>	
 		</main>
 
