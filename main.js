@@ -95,7 +95,7 @@ async function handleRouting() {
 }
 
 function loadUrlFromLocalStorage() {
-	const domain = 'localhost:3000';
+	const domain = window.location.host;
 	const savedUrlPath = localStorage.getItem('identifier');
 	const shortenedUrlParagraph = document.getElementById('shortened-url');
 	if(!savedUrlPath) {
