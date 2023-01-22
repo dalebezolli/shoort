@@ -246,7 +246,7 @@ main {
 	color: var(--color-primary);
 }
 
-/* SUCESS PAGE */
+/* SUCCESS PAGE */
 /* MAIN */
 .shortened-url-block {
 	margin-top: var(--spacing-1x);
@@ -272,7 +272,7 @@ main {
 }
 
 .copy-url-button {
-	padding-inline: 65px;
+	padding-inline: 1rem;
 	padding-block: .75rem;
 
 	border: 1px solid var(--color-primary);
