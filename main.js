@@ -31,7 +31,6 @@ async function submitURL(event) {
 
 	const isFormValid = form.checkValidity();
 	if(!isFormValid) {
-		console.error('Invalid form');
 		event.preventDefault();
 		return;
 	}
@@ -45,6 +44,11 @@ async function submitURL(event) {
 		method: 'POST',
 		body: JSON.stringify(objectData)
 	})).json();
+
+	if(response.status === 'error') {
+		form.checkValidity();
+		return;
+	}
 
 	submitButton.disabled = '';
 	localStorage.setItem('identifier', response.data.identifier);
