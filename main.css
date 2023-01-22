@@ -249,11 +249,12 @@ main {
 /* SUCESS PAGE */
 /* MAIN */
 .shortened-url-block {
-	margin-top: 1rem;
+	margin-top: var(--spacing-1x);
+	margin-bottom: var(--spacing-4x);
 
 	display: flex;
 	justify-content: space-between;
-	gap: 1rem;
+	gap: var(--spacing-1x);
 }
 
 .shortened-url-wrapper {
@@ -292,6 +293,28 @@ main {
 	background-color: transparent;
 
 	color: var(--color-primary);
+}
+
+.go-back-button {
+	width: 100%;
+	padding-block: .75rem;
+
+	border: 1px solid var(--color-netural-700);
+	border-radius: var(--border-radius);
+	background-color: var(--color-netural-700);
+
+	box-shadow: 0 .25rem .5rem var(--color-netural-800);
+
+	font-weight: bold;
+	color: var(--color-netural-400);
+
+	transition: all 150ms ease;
+}
+
+.go-back-button:where(:hover, :focus) {
+	outline: none;
+	border: 1px solid var(--color-netural-100);
+	background-color: transparent;
 }
 
 /* SITE FOOTER */

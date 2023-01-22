@@ -77,3 +77,7 @@ function copyUrlToClipboard() {
 			console.error('Failed to copy text to clipboard');
 		})
 }
+
+function goBackToRoot() {
+	window.location.replace('/');
+}
