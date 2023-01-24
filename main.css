@@ -39,6 +39,7 @@ p, h1, h2, h3, h4, h5, h6 {
 	--ff-primary: 'Poppins', sans-serif;
 
 	--spacing-1x: 1rem; 
+	--spacing-2x: 2rem; 
 	--spacing-3x: 3rem;
 	--spacing-4x: 4rem;
 
@@ -329,6 +330,14 @@ main {
 	outline: none;
 	border: 1px solid var(--color-netural-100);
 	background-color: transparent;
+}
+
+/* REDIRECT PAGE */
+.redirect {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-2x);
 }
 
 /* SITE FOOTER */

@@ -83,12 +83,22 @@ function toggleCheckboxes() {
 	document.querySelector('input[name="custom-name"]').value = '';
 }
 
-async function handleRouting() {
+function sendUserToRedirectEndpoint() {
 	const searchParams = window.location.search;
 	if(searchParams === '') return;
 
 	const identifier = searchParams.split('=')[1];
 	const url = `./api/url/${identifier}`;
+
+	window.location.replace('/redirect.html');
+	sessionStorage.setItem('apiQuery', url);
+}
+
+async function redirectToLink() {
+	url = sessionStorage.getItem('apiQuery');
+	if(!url) {
+		window.location.assign('/');
+	}
 
 	const response = await (await fetch(url, {method: 'GET'})).json();
 	window.location.replace(response.data.link);
