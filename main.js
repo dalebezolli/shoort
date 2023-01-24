@@ -58,7 +58,7 @@ async function submitURL(event) {
 	}
 
 	submitButton.disabled = '';
-	localStorage.setItem('identifier', response.data.identifier);
+	sessionStorage.setItem('identifier', response.data.identifier);
 	window.location.replace('/sucess.html');
 }
 
@@ -106,11 +106,10 @@ async function redirectToLink() {
 
 function loadUrlFromLocalStorage() {
 	const domain = window.location.host;
-	const savedUrlPath = localStorage.getItem('identifier');
+	const savedUrlPath = sessionStorage.getItem('identifier');
 	const shortenedUrlParagraph = document.getElementById('shortened-url');
 	if(!savedUrlPath) {
-		console.error('Error: Falied to get identifier from localstorage');
-		return;
+		window.location.assign('/');
 	}
 
 	shortenedUrlParagraph.textContent = `${domain}/l/${savedUrlPath}`;
