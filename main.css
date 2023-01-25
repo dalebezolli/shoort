@@ -343,16 +343,24 @@ main {
 	gap: var(--spacing-1x);
 }
 
-.shortened-url-wrapper {
+.shortened-url {
 	width: 100%;
 	padding-inline: 14px 13px;
-	padding-block: 1rem;
+	padding-top: 1rem;
 	
 	border-radius: var(--border-radius);
 	background-color: var(--color-netural-700);
+
+	overflow: hidden;
 }
 
-.shortened-url {
+.shortened-url__wrapper {
+	height: 100%;
+	overflow: scroll;
+}
+
+.shortened-url__text {
+	width: max-content;
 	font-size: .875rem;
 	color: var(--color-netural-100);
 }
