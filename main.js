@@ -7,6 +7,8 @@ function checkFormValidationAndUpdateUser() {
 	Array.from(form.elements).forEach(field => {
 		const errorMessageContainer = document.getElementById(`${field.name}-error`);
 
+		if(!errorMessageContainer) return;
+
 		field.addEventListener('invalid', _ => {
 			const errorMessage = getErrorMessage(field);
 			errorMessageContainer.style.display = 'flex';
