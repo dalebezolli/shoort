@@ -59,8 +59,16 @@ body {
 	background-color: var(--color-netural-900);
 }
 
+button {
+	cursor: pointer;
+}
+
 .icon {
 	fill: var(--color-netural-400);
+}
+
+.icon--primary-stroke {
+	stroke: var(--color-primary);
 }
 
 /* SITE HEADER */
@@ -119,6 +127,12 @@ main {
 	color: var(--color-red-400);
 }
 
+.link-shortener-form__toggle-group-height-transition {
+	height: 3rem;
+	overflow: hidden;
+	transition: height 150ms ease;
+}
+
 .link-shortener-form__toggle-group {
 	margin-bottom: var(--spacing-1x);
 
@@ -166,7 +180,6 @@ main {
 .link-shortener-form__input-border--hidden {
 	display: none;
 }
-
 
 .link-shortener-form__input-border:focus-within {
 	background-color: var(--color-primary);
@@ -256,11 +269,6 @@ main {
 	border-radius: var(--border-radius);
 	background-color: var(--color-primary);
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 8px;
-
 	box-shadow: 0 .25rem .5rem var(--color-primary-o25);
 
 	font-weight: bold;
@@ -269,12 +277,46 @@ main {
 	transition: all 150ms ease;
 }
 
+.link-shortener-form__button[data-state='default'] .link-shortener-form__button-default-state,
+.link-shortener-form__button-loading-state {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+}
+
+.link-shortener-form__button-default-state {
+	transition: all 150ms ease;
+}
+
+.link-shortener-form__button-loading-state {
+	padding-block: 4px;
+}
+
+.link-shortener-form__button-loading-state svg {
+	animation: rotate 1s infinite ease;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.link-shortener-form__button[data-state='loading'] .link-shortener-form__button-default-state,
+.link-shortener-form__button[data-state='default'] .link-shortener-form__button-loading-state {
+	display: none;
+}
+
 .link-shortener-form__button-icon {
 	fill: var(--color-netural-900);
 	transition: all 150ms ease;
 }
 
-.link-shortener-form__button:where(:hover, :focus) {
+.link-shortener-form__button:where(:hover, :focus, [data-state='loading']) {
 	outline: none;
 	border: 1px solid var(--color-primary);
 	background-color: transparent;
@@ -282,7 +324,11 @@ main {
 	color: var(--color-primary);
 }
 
- .link-shortener-form__button:where(:hover, :focus) .link-shortener-form__button-icon {
+.link-shortener-form__button:is(:hover, :focus) .link-shortener-form__button-default-state {
+	gap: 1rem;
+}
+
+ .link-shortener-form__button:where(:hover, :focus, [data-state='loading']) .link-shortener-form__button-icon {
 	fill: var(--color-primary);
  }
 
@@ -316,11 +362,9 @@ main {
 
 	padding-inline: 1rem;
 	padding-block: .75rem;
-	
-	display: flex;
-	align-items: center;
-	gap: 8px;
 
+	position: relative;
+	
 	border: 1px solid var(--color-primary);
 	border-radius: var(--border-radius);
 	background-color: var(--color-primary);
@@ -330,7 +374,35 @@ main {
 	font-weight: bold;
 	color: var(--color-netural-900);
 
+	overflow: hidden;
 	transition: all 150ms ease;
+}
+
+.copy-url-button__default-state,
+.copy-url-button__active-state {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+
+	transition: transform 250ms ease;
+}
+
+.copy-url-button__active-state {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	justify-content: center;
+
+	transform: translateY(200%);
+}
+
+.copy-url-button[data-state='active'] .copy-url-button__default-state {
+	transform: translateY(-200%);
+}
+
+.copy-url-button[data-state='active'] .copy-url-button__active-state {
+	transform: translateY(50%);
 }
 
 .copy-url-button__icon {
@@ -338,7 +410,7 @@ main {
 	transition: all 150ms ease;
 }
 
-.copy-url-button:where(:hover, :focus) {
+.copy-url-button:where(:hover, :focus, [data-state='active']) {
 	outline: none;
 	border: 1px solid var(--color-primary);
 	background-color: transparent;
@@ -346,7 +418,7 @@ main {
 	color: var(--color-primary);
 }
 
-.copy-url-button:where(:hover, :focus) .copy-url-button__icon {
+.copy-url-button:where(:hover, :focus, [data-state='active']) .copy-url-button__icon {
 	fill: var(--color-primary);
 }
 
@@ -374,6 +446,7 @@ main {
 
 /* REDIRECT PAGE */
 .redirect {
+	padding-top: var(--spacing-4x);
 	display: flex;
 	flex-direction: column;
 	align-items: center;

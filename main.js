@@ -39,7 +39,7 @@ function checkFormValidationAndUpdateUser() {
 
 async function submitURL(event) {
 	event.preventDefault();
-	const submitButton = event.target;
+	const submitButton = event.currentTarget;
 	submitButton.disabled = 'disabled';
 
 	const isFormValid = form.checkValidity();
@@ -47,6 +47,8 @@ async function submitURL(event) {
 		event.preventDefault();
 		return;
 	}
+
+	submitButton.setAttribute('data-state', 'loading');
 
 	const url = './api/url';
 	const data = new FormData(form);
@@ -72,14 +74,24 @@ async function submitURL(event) {
 }
 
 function toggleControl(event, inputId) {
-	const customNameInputField = document.querySelector('input[name="custom-name"]');
-	const customNameErrorMessageContainer = document.getElementById('custom-name-error');
+	const customNameInputField = document.querySelector(`input[name="${inputId}"]`);
+	const customNameErrorMessageContainer = document.getElementById(`${inputId}-error`);
+	const customNameInputContainer = document.getElementById(`${inputId}-container`);
+	const customNameInputToggleGroup = document.getElementById(`${inputId}-toggle-group`);
+
+	if(customNameInputToggleGroup) {
+		if(event.target.checked) {
+			customNameInputToggleGroup.style.height = '6.25rem';
+		} else {
+			customNameInputToggleGroup.style.height = '';
+		}
+	}
 
 	if(event.target.checked) {
-		document.getElementById(inputId).classList.remove('link-shortener-form__input-border--hidden');
+		customNameInputContainer.classList.remove('link-shortener-form__input-border--hidden');
 		customNameInputField.setAttribute('required', '');
 	} else {
-		document.getElementById(inputId).classList.add('link-shortener-form__input-border--hidden');
+		customNameInputContainer.classList.add('link-shortener-form__input-border--hidden');
 		customNameInputField.value = '';
 		customNameInputField.removeAttribute('required');
 		customNameErrorMessageContainer.setAttribute('hidden', '');
@@ -124,10 +136,13 @@ function loadUrlFromLocalStorage() {
 	shortenedUrlParagraph.textContent = `${domain}/l/${savedUrlPath}`;
 }
 
-function copyUrlToClipboard() {
+function copyUrlToClipboard(event) {
+	const button = event.currentTarget;
 	const generatedUrl = document.getElementById('shortened-url').textContent;
+
 	navigator.clipboard.writeText(generatedUrl)
 		.then(function() {
+			button.setAttribute('data-state', 'active');
 			console.log('Copied successfully');
 		}, function(err) {
 			console.error('Failed to copy text to clipboard');
