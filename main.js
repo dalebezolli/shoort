@@ -70,7 +70,7 @@ async function submitURL(event) {
 
 	submitButton.disabled = '';
 	sessionStorage.setItem('identifier', response.data.identifier);
-	window.location.replace('/success.html');
+	window.location.assign('/success.html');
 }
 
 function toggleControl(event, inputId) {
