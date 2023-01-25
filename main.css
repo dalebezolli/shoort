@@ -59,6 +59,10 @@ body {
 	background-color: var(--color-netural-900);
 }
 
+.icon {
+	fill: var(--color-netural-400);
+}
+
 /* SITE HEADER */
 .site-header {
 	margin-block: var(--spacing-4x) var(--spacing-3x);
@@ -91,8 +95,11 @@ main {
 }
 
 .link-shortener-form__label {
-	display: block;
 	margin-bottom: var(--spacing-1x);
+
+	display: flex;
+	align-items: center;
+	gap: 8px;
 
 	font-weight: bold;
 }
@@ -100,6 +107,10 @@ main {
 .form-error {
 	margin-top: var(--spacing-1x);
 	padding: 4px 1rem;
+
+	display: none;
+	align-items: center;
+	gap: 8px;
 
 	border-radius: var(--border-radius);
 	background-color: var(--color-red-800-25);
@@ -245,11 +256,21 @@ main {
 	border-radius: var(--border-radius);
 	background-color: var(--color-primary);
 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+
 	box-shadow: 0 .25rem .5rem var(--color-primary-o25);
 
 	font-weight: bold;
 	color: var(--color-netural-900);
 
+	transition: all 150ms ease;
+}
+
+.link-shortener-form__button-icon {
+	fill: var(--color-netural-900);
 	transition: all 150ms ease;
 }
 
@@ -260,6 +281,10 @@ main {
 
 	color: var(--color-primary);
 }
+
+ .link-shortener-form__button:where(:hover, :focus) .link-shortener-form__button-icon {
+	fill: var(--color-primary);
+ }
 
 /* SUCCESS PAGE */
 /* MAIN */
@@ -287,8 +312,14 @@ main {
 }
 
 .copy-url-button {
+	min-width: fit-content;
+
 	padding-inline: 1rem;
 	padding-block: .75rem;
+	
+	display: flex;
+	align-items: center;
+	gap: 8px;
 
 	border: 1px solid var(--color-primary);
 	border-radius: var(--border-radius);
@@ -302,12 +333,21 @@ main {
 	transition: all 150ms ease;
 }
 
+.copy-url-button__icon {
+	fill: var(--color-netural-900);
+	transition: all 150ms ease;
+}
+
 .copy-url-button:where(:hover, :focus) {
 	outline: none;
 	border: 1px solid var(--color-primary);
 	background-color: transparent;
 
 	color: var(--color-primary);
+}
+
+.copy-url-button:where(:hover, :focus) .copy-url-button__icon {
+	fill: var(--color-primary);
 }
 
 .go-back-button {

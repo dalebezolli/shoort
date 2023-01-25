@@ -9,13 +9,19 @@ function checkFormValidationAndUpdateUser() {
 
 		field.addEventListener('invalid', _ => {
 			const errorMessage = getErrorMessage(field);
-			errorMessageContainer.textContent = errorMessage || field.validationMessage;
+			errorMessageContainer.style.display = 'flex';
+			errorMessageContainer.innerHTML = `
+			<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+				<path d="M9.87 5.73L9.67 10.52H8.22L8.02 5.73H9.87ZM8.97 13.08C8.67 13.08 8.42333 12.9933 8.23 12.82C8.04333 12.64 7.95 12.42 7.95 12.16C7.95 11.8933 8.04333 11.67 8.23 11.49C8.42333 11.31 8.67 11.22 8.97 11.22C9.26333 11.22 9.50333 11.31 9.69 11.49C9.88333 11.67 9.98 11.8933 9.98 12.16C9.98 12.42 9.88333 12.64 9.69 12.82C9.50333 12.9933 9.26333 13.08 8.97 13.08Z" fill="#E03800"/>
+				<rect x="0.5" y="0.5" width="17" height="17" rx="8.5" stroke="#E03800"/>
+			</svg>` + (errorMessage || field.validationMessage);
 			errorMessageContainer.removeAttribute('hidden');
 		});
 
 		field.addEventListener('blur', _ => {
 			const isFormValid = field.checkValidity();
 			if(isFormValid) {
+				errorMessageContainer.style.display = 'none';
 				errorMessageContainer.setAttribute('hidden', '');
 				errorMessageContainer.textContent = '';
 			}
@@ -30,6 +36,7 @@ function checkFormValidationAndUpdateUser() {
 }
 
 async function submitURL(event) {
+	event.preventDefault();
 	const submitButton = event.target;
 	submitButton.disabled = 'disabled';
 
@@ -59,7 +66,7 @@ async function submitURL(event) {
 
 	submitButton.disabled = '';
 	sessionStorage.setItem('identifier', response.data.identifier);
-	window.location.replace('/sucess.html');
+	window.location.replace('/success.html');
 }
 
 function toggleControl(event, inputId) {
