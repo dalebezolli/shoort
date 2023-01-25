@@ -17,7 +17,7 @@ export default async function helper(req, res) {
 	}
 	const data = req.body;
 
-	const urlRegex = RegExp('https?:\/\/(.*)*', 'i');
+	const urlRegex = RegExp('(https?:\/\/)?[^\s]+(\.[^\s]+)+', 'i');
 	if(urlRegex.test(data.link) === false) {
 		return res.status(400).json({
 			'status': 'error', 

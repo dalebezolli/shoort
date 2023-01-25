@@ -122,6 +122,7 @@ async function redirectToLink() {
 	}
 
 	const response = await (await fetch(url, {method: 'GET'})).json();
+	if(!response.data.link.startsWith('http')) response.data.link = 'https://' + response.data.link;
 	window.location.replace(response.data.link);
 }
 
