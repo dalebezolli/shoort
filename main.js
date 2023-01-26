@@ -5,36 +5,44 @@ function checkFormValidationAndUpdateUser() {
 	form.setAttribute('novalidate', '');
 
 	Array.from(form.elements).forEach(field => {
-		const errorMessageContainer = document.getElementById(`${field.name}-error`);
-
-		if(!errorMessageContainer) return;
+		if(field.tagName !== 'INPUT') return;
 
 		field.addEventListener('invalid', _ => {
-			const errorMessage = getErrorMessage(field);
-			errorMessageContainer.style.display = 'flex';
-			errorMessageContainer.innerHTML = `
-			<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-				<path d="M9.87 5.73L9.67 10.52H8.22L8.02 5.73H9.87ZM8.97 13.08C8.67 13.08 8.42333 12.9933 8.23 12.82C8.04333 12.64 7.95 12.42 7.95 12.16C7.95 11.8933 8.04333 11.67 8.23 11.49C8.42333 11.31 8.67 11.22 8.97 11.22C9.26333 11.22 9.50333 11.31 9.69 11.49C9.88333 11.67 9.98 11.8933 9.98 12.16C9.98 12.42 9.88333 12.64 9.69 12.82C9.50333 12.9933 9.26333 13.08 8.97 13.08Z" fill="#E03800"/>
-				<rect x="0.5" y="0.5" width="17" height="17" rx="8.5" stroke="#E03800"/>
-			</svg>` + (errorMessage || field.validationMessage);
-			errorMessageContainer.removeAttribute('hidden');
+			toggleErrorBox(field, false);
 		});
 
-		field.addEventListener('blur', _ => {
-			const isFormValid = field.checkValidity();
-			if(isFormValid) {
-				errorMessageContainer.style.display = 'none';
-				errorMessageContainer.setAttribute('hidden', '');
-				errorMessageContainer.textContent = '';
-			}
+		field.addEventListener('blur', event => {
+			const isValid = field.checkValidity();
+			if(isValid) toggleErrorBox(field, true);
 		});
-
-		function getErrorMessage(field) {
-			if(field.validity.patternMismatch) {
-				if(field.name === 'identifier') return 'Please enter a custom name without spaces.'
-			}
-		}
 	})
+}
+
+function toggleErrorBox(field, isValid, customErrorMessage) {
+	const errorMessageContainer = document.getElementById(`${field.name}-error`);
+	const errorInputToggleGroup = document.getElementById(`${field.name}-toggle-group`);
+
+	if(!isValid) {
+		if(errorInputToggleGroup) errorInputToggleGroup.style.height = 'max-content';
+		const errorMessage = customErrorMessage || getErrorMessage(field) || field.validationMessage;
+		errorMessageContainer.style.display = 'flex';
+		errorMessageContainer.innerHTML = `
+		<svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+			<path d="M9.87 5.73L9.67 10.52H8.22L8.02 5.73H9.87ZM8.97 13.08C8.67 13.08 8.42333 12.9933 8.23 12.82C8.04333 12.64 7.95 12.42 7.95 12.16C7.95 11.8933 8.04333 11.67 8.23 11.49C8.42333 11.31 8.67 11.22 8.97 11.22C9.26333 11.22 9.50333 11.31 9.69 11.49C9.88333 11.67 9.98 11.8933 9.98 12.16C9.98 12.42 9.88333 12.64 9.69 12.82C9.50333 12.9933 9.26333 13.08 8.97 13.08Z" fill="#E03800"/>
+			<rect x="0.5" y="0.5" width="17" height="17" rx="8.5" stroke="#E03800"/>
+		</svg>` + errorMessage;
+		errorMessageContainer.removeAttribute('hidden');
+	} else {
+		errorMessageContainer.style.display = 'none';
+		errorMessageContainer.setAttribute('hidden', '');
+		errorMessageContainer.textContent = '';
+	}
+
+	function getErrorMessage(field) {
+		if(field.validity.patternMismatch) {
+			if(field.name === 'identifier') return 'Please enter a custom name without spaces.'
+		}
+	}
 }
 
 async function submitURL(event) {
@@ -42,34 +50,49 @@ async function submitURL(event) {
 	const submitButton = event.currentTarget;
 	submitButton.disabled = 'disabled';
 
-	const isFormValid = form.checkValidity();
-	if(!isFormValid) {
-		event.preventDefault();
-		return;
-	}
+	// const isFormValid = form.checkValidity();
+	// if(!isFormValid) return;
 
 	submitButton.setAttribute('data-state', 'loading');
 
 	const url = './api/url';
 	const data = new FormData(form);
-	const objectData = {};
-	data.forEach((value, key) => objectData[key] = value);
+	const  dataObject = {};
+	data.forEach((value, key) => dataObject[key] = value);
 
-	const response = await (await fetch(url, {
+	const response = await fetch(url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(objectData)
-	})).json();
+		body: JSON.stringify(dataObject)
+	});
+	const responseData = await response.json();
 
-	if(response.status === 'error') {
-		form.checkValidity();
+	if(response.status !== 200) {
+		switch(responseData.type) {
+			case 'INPUT_ERROR':
+				const field = document.querySelector(`input[name='${responseData.inputName}']`);
+				toggleErrorBox(field, false, responseData.message);
+				break;
+			case 'INTERNAL_ERROR':
+				const generalErrorContainer = document.querySelector('.general-error-container');
+				const generalErrorMessage = document.querySelector('.general-error-container__message');
+
+				generalErrorMessage.textContent = responseData.message;
+				generalErrorContainer.classList.add('general-error-container--show');
+				break;
+			default:
+				console.error(responseData);
+		}
+
+		submitButton.disabled = '';
+		submitButton.setAttribute('data-state', 'default');
 		return;
 	}
 
 	submitButton.disabled = '';
-	sessionStorage.setItem('identifier', response.data.identifier);
+	sessionStorage.setItem('identifier', responseData.identifier);
 	window.location.assign('/success.html');
 }
 

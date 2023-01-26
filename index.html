@@ -18,12 +18,15 @@
 </head>
 <body onload="toggleCheckboxes(); sendUserToRedirectEndpoint();">
 	<div>
-
 		<header class="site-header">
 			<h1 class="site-header__title">iShort</h1>	
 		</header>
 		
 		<main>
+			<div class="general-error-container">
+				<p class="general-error-container__message">Internal server error.</p>
+			</div>
+
 			<form class="link-shortener-form" id="link-shortener-form">
 
 				<div>
@@ -35,13 +38,13 @@
 					</label>
 
 					<div class="link-shortener-form__input-border">
-						<input name="link" type="url" placeholder="Link" class="link-shortener-form__input" aria-describedby="link-error" required>
+						<input name="link" type="url" placeholder="Link" class="link-shortener-form__input" aria-describedby="link-error" maxlength="2048" required>
 					</div>
 
 					<div id="link-error" class="form-error" hidden></div>
 				</div>
 
-				<div class="link-shortener-form__toggle-group-height-transition" id="custom-name-toggle-group">
+				<div class="link-shortener-form__toggle-group-height-transition" id="identifier-toggle-group">
 					<div class="link-shortener-form__toggle-group">
 						<label for="identifier" class="link-shortener-form__label">
 							Customize the link's name
@@ -49,7 +52,7 @@
 
 						<div class="input-switch">
 							<div class="input-switch__toggle">
-								<input name="custom-name-toggle" type="checkbox" class="input-switch__control" onclick="toggleControl(event, 'custom-name')">
+								<input name="identifier-toggle" type="checkbox" form="" class="input-switch__control" onclick="toggleControl(event, 'identifier')">
 								<div class="input-switch__toggle-switch">
 									<svg width="22" height="22" viewBox="0 0 22 22" fill="none" class="icon xmark"><g><path d="M16.3509 7.35336C16.7952 6.90903 16.7952 6.18742 16.3509 5.74309C15.9065 5.29875 15.1849 5.29875 14.7406 5.74309L10.9975 9.48973L7.25086 5.74664C6.80652 5.30231 6.08492 5.30231 5.64058 5.74664C5.19625 6.19098 5.19625 6.91258 5.64058 7.35692L9.38723 11.1L5.64414 14.8466C5.1998 15.291 5.1998 16.0126 5.64414 16.4569C6.08848 16.9013 6.81008 16.9013 7.25441 16.4569L10.9975 12.7103L14.7441 16.4534C15.1885 16.8977 15.9101 16.8977 16.3544 16.4534C16.7987 16.009 16.7987 15.2874 16.3544 14.8431L12.6078 11.1L16.3509 7.35336Z" fill="#111014"/></g></svg>
 									<svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="icon checkmark"><path d="M14.7062 3.29375C15.0969 3.68437 15.0969 4.31875 14.7062 4.70937L6.70625 12.7094C6.31562 13.1 5.68125 13.1 5.29062 12.7094L1.29062 8.70937C0.9 8.31875 0.9 7.68437 1.29062 7.29375C1.68125 6.90312 2.31562 6.90312 2.70625 7.29375L6 10.5844L13.2937 3.29375C13.6844 2.90312 14.3187 2.90312 14.7094 3.29375H14.7062Z" fill="#111014"/></svg>
@@ -58,14 +61,14 @@
 						</div>
 					</div>
 
-					<div id="custom-name-container" class="link-shortener-form__input-border link-shortener-form__input-border--hidden">
+					<div id="identifier-container" class="link-shortener-form__input-border link-shortener-form__input-border--hidden">
 						<div class="link-shortener-form__input-wrapper">
 							<p>ishort.sth</p>
-							<input name="identifier" type="text" placeholder="identifier" class="link-shortener-form__input link-shortener-form__input--right-rounded" pattern="^[^\s]*(-[^\s]*)*$">
+							<input name="identifier" type="text" placeholder="identifier" class="link-shortener-form__input link-shortener-form__input--right-rounded" pattern="^(-?[a-zA-Z0-9])+$" maxlength="16">
 						</div>
 					</div>
 
-					<div id="custom-name-error" class="form-error" hidden></div>
+					<div id="identifier-error" class="form-error" hidden></div>
 				</div>
 
 				<button class="link-shortener-form__button" id="link-shortener-submit" onclick="submitURL(event)" data-state="default">

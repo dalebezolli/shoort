@@ -1,76 +1,163 @@
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 
+function getErrorObject(code) {
+	let object;
+	let status;
+
+	switch(code) {
+		// REQUEST ERRORS
+		case 'RESOURCE_NOT_FOUND':
+			status = 404;
+			object = {
+				type: 'REQUEST_ERROR',
+				message: 'Resource does not exist.'
+			}
+			break;
+
+		case 'DATABASE_ERROR':
+			status = 500;
+			object = {
+				type: 'INTERNAL_ERROR',
+				message: 'There has been an internal server error, the developers have been contacted and will fix it asap.'
+			}
+			break;
+
+		// LINK ERRORS
+		case 'LINK_NOT_SPECIFIED':
+			status = 400;
+			object = { 
+				type: 'INPUT_ERROR',
+				inputName: 'link',
+				message: 'Please fill out the link field.' 
+			};
+			break;
+
+		case 'LINK_WRONG_SYNTAX':
+			status = 400;
+			object = { 
+				type: 'INPUT_ERROR',
+				inputName: 'link',
+				message: 'Please enter a URL.' 
+			};
+			break;
+
+		case 'LINK_DATA_TOO_LONG':
+			status = 400;
+			object = { 
+				type: 'INPUT_ERROR',
+				inputName: 'link',
+				message: 'The url must be 2048 characters long or less.' 
+			};
+			break;
+
+		// IDENTIFIER ERRORS
+		case 'IDENTIFIER_NOT_UNIQUE':
+			status = 400;
+			object = { 
+				type: 'INPUT_ERROR',
+				inputName: 'identifier',
+				message: 'This identifier already exists' 
+			};
+			break;
+
+		case 'IDENTIFIER_WRONG_SYNTAX':
+			status = 400;
+			object = { 
+				type: 'INPUT_ERROR',
+				inputName: 'identifier',
+				message: 'The identifier must only contain characters, numbers and hyphens' 
+			};
+			break;
+
+		case 'IDENTIFIER_DATA_TOO_LONG':
+			status = 400;
+			object = { 
+				type: 'INPUT_ERROR',
+				inputName: 'identifier',
+				message: 'The identifier must be 16 characters long or less.' 
+			}
+			break;
+
+		default:
+			status = 500;
+			object = { 
+				type: 'INTERNAL_ERROR',
+				message: 'The programmers are a bit too dumb.' 
+			}
+			break;
+	}
+
+	return [status, object];
+}
+
 export default async function helper(req, res) {
 	const RANDOM_IDENTIFIER_SIZE = 5;
-
-	if(req.method !== 'POST') {
-		return res.status(404).json({
-			'status': 'error', 
-			'message': 'Usage POST /url'
-		});
-	}
-
-	if(req.body === undefined || Object.keys(req.body).length === 0) {
-		return res.status(400).json({
-			'status': 'error', 
-			'message': 'Data was not specified'
-		});
-	}
-	const data = req.body;
-
-	const urlRegex = RegExp('(https?:\/\/)?[^\s]+(\.[^\s]+)+', 'i');
-	if(urlRegex.test(data.link) === false) {
-		return res.status(400).json({
-			'status': 'error', 
-			'message': 'The input specificed is not a url'
-		});
-	}
-
-	if(data.identifier.includes(" ")) {
-		return res.status(400).json({
-			'status': 'error', 
-			'message': 'The name specified contains whitespace'
-		});
-	}
-
-	const connection = await mysql.createConnection(process.env.DATABASE_URL);
-	connection.connect();
-
-	if(data.identifier === '') {
-		const [rows] = await connection.execute(`SELECT LEFT(MD5(RAND()), ${RANDOM_IDENTIFIER_SIZE})`);
-		data.identifier = Object.values(rows[0])[0];
-	}
+	let databaseConnection;
 
 	try {
-		const [rows] = await connection.execute(
-			'INSERT INTO `links` (link, identifier) VALUES (?, ?)',
-			[data.link, data.identifier]
-		)
-
-		console.log(rows);
-	} catch(err) {
-		let errorMessage;
-		console.log(err);
-
-		switch(err.code) {
-			case 'ER_DUP_ENTRY':
-				errorMessage = 'This name is already in use';
-				break;
-			default:
-				errorMessage = 'Failed to create the short link';
+		if(req.method !== 'POST') {
+			throw 'RESOURCE_NOT_FOUND';
 		}
 
-		return res.status(400).json({
-			'status': 'error',
-			'message': errorMessage,
-		})
-	}
+		const data = req.body;
 
-	connection.end();
-	return res.json({
-		'status': 'ok',
-		'message': 'Created link',
-		'data': { 'identifier': data.identifier}
-	});
+		if(data === undefined || Object.keys(data).length === 0 || data.link === '') {
+			throw 'LINK_NOT_SPECIFIED';
+		}
+
+		const urlRegex = RegExp(/(https?:\/\/)?[^\s]+(\.[^\s]+)+/, 'i');
+		if(urlRegex.test(data.link) === false) {
+			throw 'LINK_WRONG_SYNTAX';
+		}
+
+		// TODO: DATABASE CONNECTION SHOULD BE RETRIED IF IT HAS FAILED;
+		databaseConnection = await mysql.createConnection(process.env.DATABASE_URL);
+		databaseConnection.connect();
+
+		const isEmptyIdentifier = data.identifier === '';
+		if(isEmptyIdentifier) {
+			const [response] = await databaseConnection.execute(`SELECT LEFT(MD5(RAND()), ${RANDOM_IDENTIFIER_SIZE})`);
+			const randomIdentifer = Object.values(response[0])[0];
+			data.identifier = randomIdentifer;
+		}
+
+		const identifierRegex = RegExp(/^(-?[a-zA-Z0-9])+$/, 'i');
+		if(identifierRegex.test(data.identifier) === false) {
+			throw 'IDENTIFIER_WRONG_SYNTAX';
+		}
+
+		try {
+			const [rows] = await databaseConnection.execute(
+				'INSERT INTO `links` (link, identifier) VALUES (?, ?)',
+				[data.link, data.identifier]
+			)
+		} catch(err) {
+			switch(err.code) {
+				case 'ER_DUP_ENTRY':
+					throw 'IDENTIFIER_NOT_UNIQUE';
+				case 'ER_DATA_TOO_LONG':
+					const error = err.sqlMessage.slice(err.sqlMessage.indexOf('desc'), err.sqlMessage.indexOf('('));
+					throw (error.includes('link') ? 'LINK_DATA_TOO_LONG' : 'IDENTIFIER_DATA_TOO_LONG');
+				default:
+					throw 'UNIDENTIFIER_ERROR';
+			}
+		}
+
+		databaseConnection.end();
+
+		return res.json({
+			'message': 'Created link',
+			'identifier': data.identifier
+		});
+	} catch (error) {
+		if(typeof error === 'object') {
+			error = 'DATABASE_ERROR';		
+		} else {
+			if(databaseConnection) databaseConnection.end();
+		}
+
+		const [status, data] = getErrorObject(error);	
+		return res.status(status).json(data);
+	}
 }

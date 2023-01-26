@@ -328,9 +328,31 @@ main {
 	gap: 1rem;
 }
 
- .link-shortener-form__button:where(:hover, :focus, [data-state='loading']) .link-shortener-form__button-icon {
+.link-shortener-form__button:where(:hover, :focus, [data-state='loading']) .link-shortener-form__button-icon {
 	fill: var(--color-primary);
- }
+}
+
+.general-error-container {
+	position: absolute;
+	top: -4rem;
+	left: 0;
+	right: 0;
+
+	padding-block: var(--spacing-1x);
+
+	border-bottom: 1px solid var(--color-red-400);
+	background-color: var(--color-red-800-25);
+
+	text-align: center;
+	font-size: .875rem;
+	color: var(--color-red-400);
+
+	transition: all 150ms ease;
+}
+
+.general-error-container--show {
+	top: 0;
+}
 
 /* SUCCESS PAGE */
 /* MAIN */
