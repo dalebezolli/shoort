@@ -8,7 +8,7 @@ export default async function helper(req, res) {
 			'message': 'Usage GET /url/:slug'
 		});
 
-	const slug = req.query.slug;
+	const identifier = req.query.identifier;
 
 	const connection = await mysql.createConnection(process.env.DATABASE_URL);
 	connection.connect();
@@ -16,8 +16,8 @@ export default async function helper(req, res) {
 	let data;
 	try {
 		const [rows] = await connection.execute(
-			'SELECT * FROM `links` WHERE `name` = ?',
-			[slug],
+			'SELECT * FROM `links` WHERE `identifier` = ?',
+			[identifier],
 		)
 
 		data = rows;

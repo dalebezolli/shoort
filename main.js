@@ -31,7 +31,7 @@ function checkFormValidationAndUpdateUser() {
 
 		function getErrorMessage(field) {
 			if(field.validity.patternMismatch) {
-				if(field.name === 'custom-name') return 'Please enter a custom name without spaces.'
+				if(field.name === 'identifier') return 'Please enter a custom name without spaces.'
 			}
 		}
 	})
@@ -101,7 +101,7 @@ function toggleControl(event, inputId) {
 
 function toggleCheckboxes() {
 	document.querySelectorAll('input[type=\'checkbox\']').forEach(checkbox => checkbox.checked = false);
-	document.querySelector('input[name="custom-name"]').value = '';
+	document.querySelector('input[name="identifier"]').value = '';
 }
 
 function sendUserToRedirectEndpoint() {
