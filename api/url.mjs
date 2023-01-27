@@ -174,6 +174,9 @@ export default async function helper(req, res) {
 					const error = err.sqlMessage.slice(err.sqlMessage.indexOf('desc'), err.sqlMessage.indexOf('('));
 					throw (error.includes('link') ? 'LINK_DATA_TOO_LONG' : 'IDENTIFIER_DATA_TOO_LONG');
 				default:
+					return res.status(500).json({
+						'HAHAHAHAHAHHA': err
+					});
 					throw 'UNIDENTIFIER_ERROR';
 			}
 		}
@@ -192,7 +195,7 @@ export default async function helper(req, res) {
 			if(databaseConnection) databaseConnection.end();
 		}
 
-		const [status, data] = getErrorObject(error);	
+		const [status, data] = getErrorObject(error);
 		return res.status(status).json(data);
 	}
 }

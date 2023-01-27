@@ -42,7 +42,7 @@
 					</label>
 
 					<div class="link-shortener-form__input-border">
-						<input name="link" type="url" placeholder="Link" class="link-shortener-form__input" aria-describedby="link-error" maxlength="2048" required>
+						<input name="link" type="url" placeholder="Link" class="link-shortener-form__input" aria-describedby="link-error" maxlength="2048" autocomplete="off" required>
 					</div>
 
 					<div id="link-error" class="form-error" hidden></div>
@@ -68,7 +68,7 @@
 					<div id="identifier-container" class="link-shortener-form__input-border link-shortener-form__input-border--hidden">
 						<div class="link-shortener-form__input-wrapper">
 							<p>Shoort.sth</p>
-							<input name="identifier" type="text" placeholder="identifier" class="link-shortener-form__input link-shortener-form__input--right-rounded" pattern="^(-?[a-zA-Z0-9])+$" maxlength="16">
+							<input name="identifier" type="text" placeholder="identifier" class="link-shortener-form__input link-shortener-form__input--right-rounded" pattern="^(-?[a-zA-Z0-9])+$" maxlength="16" autocomplete="off">
 						</div>
 					</div>
 
