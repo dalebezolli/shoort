@@ -524,3 +524,12 @@ main {
 
 	text-align: center;
 }
+
+.attribution-text {
+	font-style: normal;
+}
+
+.attribution-link {
+	font-weight: 700;
+	color: var(--color-primary);
+}
