@@ -90,7 +90,7 @@ function getErrorObject(code) {
 			status = 500;
 			object = {
 				type: 'INTERNAL_ERROR',
-				message: 'Captcha connection error.'
+				message: 'Captcha connection error, try again later.'
 			}
 			break;
 

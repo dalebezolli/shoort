@@ -16,7 +16,7 @@
 
 	<!-- SCRIPTS -->
 	<script src="main.js" defer></script>
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<script src="https://www.google.com/recaptcha/api.js?onload=generateCaptchaWidget&render=explicit" async defer></script>
 </head>
 <body onload="toggleCheckboxes(); sendUserToRedirectEndpoint();">
 	<div>
@@ -73,9 +73,7 @@
 					<div id="identifier-error" class="form-error" hidden></div>
 				</div>
 
-				<div class="g-recaptcha" data-theme="dark" data-sitekey="6LcEdiwkAAAAAKRKlYksI7YRzHv4nk-RzxiHgsJu"></div>
-
-				<button class="link-shortener-form__button" id="link-shortener-submit" onclick="submitURL(event)" data-state="default">
+				<button class="link-shortener-form__button" id="link-shortener-submit" onclick="toggleCaptchaVerificationBox(event, true)" data-state="default">
 					<div class="link-shortener-form__button-default-state">
 						Shorten your link
 						<svg class="link-shortener-form__button-icon" viewBox="0 0 24 24" height="24" width="24">
@@ -90,6 +88,15 @@
 					</div>
 				</button>
 			</form>	
+
+			<div class="captcha-shadow" onmouseup="toggleCaptchaVerificationBox(event, false)">
+				<div class="captcha-container-border">
+					<section class="captcha-container-content">
+						<h2>Confirm that you aren't a robot</h2>
+						<div id="recaptcha"></div>
+					</section>
+				</div>
+			</div>
 		</main>
 
 	</div>

@@ -32,6 +32,7 @@ p, h1, h2, h3, h4, h5, h6 {
 	--color-netural-700: #373544;
 	--color-netural-800: #1B1A1E;
 	--color-netural-900: #111014;
+	--color-netural-900-90: #111014E6;
 
 	--color-red-400: hsl(15, 100%, 44%);
 	--color-red-800-25: hsl(15, 100%, 18%, .25);
@@ -42,6 +43,7 @@ p, h1, h2, h3, h4, h5, h6 {
 	--spacing-2x: 2rem; 
 	--spacing-3x: 3rem;
 	--spacing-4x: 4rem;
+	--spacing-6x: 6rem;
 
 	--border-radius: .25rem;
 }
@@ -352,6 +354,40 @@ main {
 
 .general-error-container--show {
 	top: 0;
+}
+
+.captcha-shadow {
+	display: none;
+	place-content: center;
+
+	position: absolute;
+	inset: 0;
+
+	background-color: var(--color-netural-900-90);
+}
+
+.captcha--show {
+	display: grid;
+}
+
+.captcha-container-border {
+	padding: 1px;
+
+	border-radius: var(--border-radius);
+	background-image: linear-gradient(160deg, var(--color-netural-700), transparent);
+}
+
+.captcha-container-content {
+	padding-block: var(--spacing-3x) var(--spacing-4x);
+	padding-inline: var(--spacing-6x);
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-2x);
+
+	border-radius: var(--border-radius);
+	background-color: var(--color-netural-800);
 }
 
 /* SUCCESS PAGE */

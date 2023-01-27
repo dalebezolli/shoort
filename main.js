@@ -45,9 +45,36 @@ function toggleErrorBox(field, isValid, customErrorMessage) {
 	}
 }
 
-async function submitURL(event) {
-	event.preventDefault();
-	const submitButton = event.currentTarget;
+function setGlobalError(errorMessage) {
+	const generalErrorContainer = document.querySelector('.general-error-container');
+	const generalErrorMessage = document.querySelector('.general-error-container__message');
+
+	generalErrorMessage.textContent = errorMessage;
+	generalErrorContainer.classList.add('general-error-container--show');
+}
+
+function toggleCaptchaVerificationBox(event, visible) {
+	if(event) event.preventDefault();
+
+	const captcha = document.querySelector('.captcha-shadow');
+	if(visible) {
+		captcha.classList.add('captcha--show');
+	} else {
+		captcha.classList.remove('captcha--show');
+	}
+}
+
+function generateCaptchaWidget() {
+	grecaptcha.render('recaptcha', {
+		'sitekey': '6LcEdiwkAAAAAKRKlYksI7YRzHv4nk-RzxiHgsJu',
+		'theme': 'dark',
+		'callback': 'submitURL'
+	});
+}
+
+async function submitURL(userCaptchaResponse) {
+	toggleCaptchaVerificationBox(null, false);
+	const submitButton = document.getElementById('link-shortener-submit');
 	submitButton.disabled = 'disabled';
 
 	const isFormValid = form.checkValidity();
@@ -59,6 +86,7 @@ async function submitURL(event) {
 	const data = new FormData(form);
 	const  dataObject = {};
 	data.forEach((value, key) => dataObject[key] = value);
+	dataObject['g-recaptcha-response'] = userCaptchaResponse;
 
 	const response = await fetch(url, {
 		method: 'POST',
@@ -72,16 +100,19 @@ async function submitURL(event) {
 	if(response.status !== 200) {
 		switch(responseData.type) {
 			case 'INPUT_ERROR':
+				if(responseData.inputName === 'captcha') {
+					setGlobalError(responseData.message);
+					break;
+				}
+
 				const field = document.querySelector(`input[name='${responseData.inputName}']`);
 				toggleErrorBox(field, false, responseData.message);
 				break;
-			case 'INTERNAL_ERROR':
-				const generalErrorContainer = document.querySelector('.general-error-container');
-				const generalErrorMessage = document.querySelector('.general-error-container__message');
 
-				generalErrorMessage.textContent = responseData.message;
-				generalErrorContainer.classList.add('general-error-container--show');
+			case 'INTERNAL_ERROR':
+				setGlobalError(responseData.message);
 				break;
+
 			default:
 				console.error(responseData);
 		}
