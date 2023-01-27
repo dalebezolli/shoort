@@ -14,7 +14,9 @@
 	<!-- STYLESHEETS -->
 	<link rel="stylesheet" href="main.css">
 
+	<!-- SCRIPTS -->
 	<script src="main.js" defer></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body onload="toggleCheckboxes(); sendUserToRedirectEndpoint();">
 	<div>
@@ -70,6 +72,8 @@
 
 					<div id="identifier-error" class="form-error" hidden></div>
 				</div>
+
+				<div class="g-recaptcha" data-theme="dark" data-sitekey="6LcEdiwkAAAAAKRKlYksI7YRzHv4nk-RzxiHgsJu"></div>
 
 				<button class="link-shortener-form__button" id="link-shortener-submit" onclick="submitURL(event)" data-state="default">
 					<div class="link-shortener-form__button-default-state">

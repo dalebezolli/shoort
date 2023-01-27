@@ -18,6 +18,7 @@
   "homepage": "https://github.com/dalebezolli/urlshortener#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "mysql2": "^3.0.1"
+    "mysql2": "^3.0.1",
+    "node-fetch": "^3.3.0"
   }
 }

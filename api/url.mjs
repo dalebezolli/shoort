@@ -1,5 +1,11 @@
-require('dotenv').config();
-const mysql = require('mysql2/promise');
+import * as dotenv from 'dotenv';
+dotenv.config();
+import mysql from 'mysql2/promise';
+import fetch from 'node-fetch';
+
+// import('dotenv').then(val => val.config());
+// const mysql = import('mysql2/promise');
+// const fetch = import('node-fetch');
 
 function getErrorObject(code) {
 	let object;
@@ -78,6 +84,23 @@ function getErrorObject(code) {
 				message: 'The identifier must be 16 characters long or less.' 
 			}
 			break;
+		
+		// CAPTCHA ERRORS
+		case 'CATPCHA_CONNECTION_ERROR':
+			status = 500;
+			object = {
+				type: 'INTERNAL_ERROR',
+				message: 'Captcha connection error.'
+			}
+			break;
+
+		case 'CAPTCHA_WRONG':
+			status = 400;
+			object = {
+				type: 'INPUT_ERROR',
+				inputName: 'captcha',
+				message: 'Recaptcha thinks you are a robot.'
+			}
 
 		default:
 			status = 500;
@@ -127,6 +150,17 @@ export default async function helper(req, res) {
 			throw 'IDENTIFIER_WRONG_SYNTAX';
 		}
 
+		const recaptchaData = `secret=${process.env.RECAPTCHA_SECRET}&response=${data['g-recaptcha-response']}`;
+
+		const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify?${recaptchaData}`);
+		if(recaptchaResponse.status !== 200) {
+			throw 'CAPTCHA_CONNECTION_ERROR';
+		}
+		const responseData = await recaptchaResponse.json();
+		if(!responseData.success) {
+			throw 'CAPTCHA_WRONG';
+		}
+
 		try {
 			const [rows] = await databaseConnection.execute(
 				'INSERT INTO `links` (link, identifier) VALUES (?, ?)',
@@ -152,6 +186,7 @@ export default async function helper(req, res) {
 		});
 	} catch (error) {
 		if(typeof error === 'object') {
+			console.log(error);
 			error = 'DATABASE_ERROR';		
 		} else {
 			if(databaseConnection) databaseConnection.end();

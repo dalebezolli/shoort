@@ -50,8 +50,8 @@ async function submitURL(event) {
 	const submitButton = event.currentTarget;
 	submitButton.disabled = 'disabled';
 
-	// const isFormValid = form.checkValidity();
-	// if(!isFormValid) return;
+	const isFormValid = form.checkValidity();
+	if(!isFormValid) return;
 
 	submitButton.setAttribute('data-state', 'loading');
 
