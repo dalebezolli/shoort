@@ -85,10 +85,6 @@ button {
 	color: var(--color-primary);
 }
 
-.site-header__title::first-letter {
-	color: var(--color-netural-100);
-}
-
 /* INDEX PAGE */
 /* MAIN */
 main {
