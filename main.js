@@ -1,10 +1,11 @@
 const form = document.getElementById('link-shortener-form');
+const formElements = Array.from(form.elements);
 
 function checkFormValidationAndUpdateUser() {
 	if(!form) return;
 	form.setAttribute('novalidate', '');
 
-	Array.from(form.elements).forEach(field => {
+	formElements.forEach(field => {
 		if(field.tagName !== 'INPUT') return;
 
 		field.addEventListener('invalid', _ => {
@@ -206,6 +207,27 @@ function copyUrlToClipboard(event) {
 
 function goBackToRoot() {
 	window.location.replace('/');
+}
+
+function handleOnMouseMoveFormHighlight(event) {
+	const target = event.currentTarget;
+
+	const rect = target.getBoundingClientRect();
+	const highlightX = event.clientX - rect.left;
+	const highlightY = event.clientY - rect.top;
+
+	formElements.forEach(input => {
+		if(input.tagName === 'BUTTON') return;
+
+		const rect = input.parentElement.getBoundingClientRect();
+		const highlightX = event.clientX - rect.left;
+		const highlightY = event.clientY - rect.top;
+		input.parentElement.style.setProperty('--highlight-X', highlightX + 'px');
+		input.parentElement.style.setProperty('--highlight-Y', highlightY + 'px');
+	});
+
+	target.style.setProperty('--highlight-X', highlightX + 'px');
+	target.style.setProperty('--highlight-Y', highlightY + 'px');
 }
 
 checkFormValidationAndUpdateUser();
