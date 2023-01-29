@@ -191,7 +191,8 @@ button {
 }
 
 .form-border,
-.link-shortener-form__input-border {
+.link-shortener-form__input-border,
+.submit-button__border {
 	content: '';
 
 	position: absolute;
@@ -215,8 +216,13 @@ button {
 	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-primary), transparent 60%);
 }
 
+.submit-button__border {
+	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-primary), transparent 60%);
+}
+
 .form:hover .form-border,
-.form:hover .link-shortener-form__input-border {
+.form:hover .link-shortener-form__input-border ,
+.submit-button:hover .submit-button__border {
 	opacity: 1;
 }
 
@@ -325,10 +331,24 @@ button {
 	background-color: var(--color-netural-800);
 }
 
+.submit-button {
+	position: relative;
+
+	padding: 1px;
+	border-radius: var(--border-radius);
+	background-color: var(--color-primary);
+}
+
+.submit-button:where(:hover, :focus, [data-state='loading']) {
+	background-color: transparent;
+}
+
 .link-shortener-form__button {
+	width: 100%;
+
 	padding-block: .75rem;
 
-	border: 1px solid var(--color-primary);
+	border: none;
 	border-radius: var(--border-radius);
 	background-color: var(--color-primary);
 
@@ -379,7 +399,6 @@ button {
 
 .link-shortener-form__button:where(:hover, :focus, [data-state='loading']) {
 	outline: none;
-	border: 1px solid var(--color-primary);
 	background-color: var(--color-netural-800);
 
 	color: var(--color-primary);

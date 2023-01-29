@@ -217,8 +217,6 @@ function handleOnMouseMoveFormHighlight(event) {
 	const highlightY = event.clientY - rect.top;
 
 	formElements.forEach(input => {
-		if(input.tagName === 'BUTTON') return;
-
 		const rect = input.parentElement.getBoundingClientRect();
 		const highlightX = event.clientX - rect.left;
 		const highlightY = event.clientY - rect.top;
