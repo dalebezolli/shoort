@@ -119,7 +119,10 @@ button {
 	margin-block: var(--spacing-4x) var(--spacing-8x);
 	margin-inline: auto;
 
+	padding-inline: 1rem;
+
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: start;
 	gap: var(--spacing-4x);
@@ -127,7 +130,7 @@ button {
 
 /* HERO SECTION */
 .hero {
-	max-width: 430px;
+	max-width: clamp(350px, 10vw, 430px);
 
 	display: grid;
 	gap: var(--spacing-2x);
@@ -139,12 +142,12 @@ button {
 }
 
 .introduction__logo {
-	font-size: 4rem;
+	font-size: clamp(2rem,5vw ,4rem);
 	color: var(--color-primary);
 }
 
 .introduction__description {
-	font-size: 1.5rem;
+	font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
 .features {
@@ -168,6 +171,7 @@ button {
 /* FORM */
 .form {
 	position: relative;
+	max-width: clamp(350px, 40vw, 430px);
 
 	padding: 1px;
 
@@ -175,7 +179,6 @@ button {
 }
 
 .form__content {
-	max-width: 430px;
 
 	position: relative;
 
@@ -615,4 +618,19 @@ button {
 .attribution-link {
 	font-weight: 700;
 	color: var(--color-primary);
+}
+
+@media (max-width: 49.75rem) {
+	.introduction,
+	.features__title {
+		text-align: center;
+	}
+
+	.features__feature p {
+		width: 100%;
+
+		display: flex;
+		justify-content: space-between;
+	}
+
 }
