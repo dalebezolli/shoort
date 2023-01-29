@@ -5,9 +5,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function generateCaptchaWidget() {
-	grecaptcha.render('recaptcha', {
-		'sitekey': '6LcEdiwkAAAAAKRKlYksI7YRzHv4nk-RzxiHgsJu',
-		'theme': 'dark',
-		'callback': 'submitURL'
-	});
+	try {
+		grecaptcha.render('recaptcha', {
+			'sitekey': '6LcEdiwkAAAAAKRKlYksI7YRzHv4nk-RzxiHgsJu',
+			'theme': 'dark',
+			'callback': 'submitURL'
+		});
+	} catch(err) {
+		grecaptcha.reset();
+	}
 }

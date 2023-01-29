@@ -1,7 +1,10 @@
+import test from '../../js/serverErrorHandling.mjs';
+
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 export default async function helper(req, res) {
+	test();
 	if(req.method !== 'GET') 
 		return res.status(404).json({
 			'status': 'error', 

@@ -57,17 +57,16 @@ function setGlobalError(errorMessage) {
 	generalErrorContainer.classList.add('general-error-container--show');
 }
 
-function nextFormPage(event) {
-	event.preventDefault();
+function setFormPage(event, page) {
+	if(event) event.preventDefault();
 
 	const isFormValid = form.checkValidity();
 	if(!isFormValid) return;
 
-	currentPage = parseInt(form.getAttribute('data-visible-page'));
 	form.style.height = `${form.clientHeight}px`;
-	form.setAttribute('data-visible-page', currentPage + 1);
+	form.setAttribute('data-visible-page', page);
 
-	if(currentPage + 1 === 2) {
+	if(page === 2) {
 		generateCaptchaWidget();
 	}
 }
@@ -102,9 +101,9 @@ async function submitURL(userCaptchaResponse) {
 					setGlobalError(responseData.message);
 					break;
 				}
-
 				const field = document.querySelector(`input[name='${responseData.inputName}']`);
 				toggleErrorBox(field, false, responseData.message);
+				setFormPage(null, 1);
 				break;
 
 			case 'INTERNAL_ERROR':
