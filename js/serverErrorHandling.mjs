@@ -19,6 +19,14 @@ export default function getErrorObject(code) {
 				message: 'There has been an internal server error, the developers have been contacted and will fix it asap.'
 			}
 			break;
+		
+		case 'DATABASE_LINK_NOT_FOUND':
+			status = 404;
+			object = {
+				type: 'LINK_NOT_FOUND',
+				message: 'Link does not exist on the server'
+			}
+			break;
 
 		// LINK ERRORS
 		case 'LINK_NOT_SPECIFIED':
