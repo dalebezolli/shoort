@@ -174,7 +174,7 @@ button {
 	border-radius: var(--border-radius);
 }
 
-.link-shortener-form {
+.form__content {
 	max-width: 430px;
 
 	position: relative;
@@ -191,7 +191,7 @@ button {
 }
 
 .form-border,
-.link-shortener-form__input-border,
+.input__content-border,
 .submit-button__border {
 	content: '';
 
@@ -212,7 +212,7 @@ button {
 	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-netural-400-30), transparent);
 }
 
-.link-shortener-form__input-border {
+.input__content-border {
 	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-primary), transparent 60%);
 }
 
@@ -221,12 +221,12 @@ button {
 }
 
 .form:hover .form-border,
-.form:hover .link-shortener-form__input-border ,
+.form:hover .input__content-border ,
 .submit-button:hover .submit-button__border {
 	opacity: 1;
 }
 
-.link-shortener-form__label {
+.input__label {
 	position: relative;
 	z-index: 1;
 	margin-bottom: var(--spacing-1x);
@@ -267,18 +267,18 @@ button {
 	gap: var(--spacing-1x);
 }
 
-.link-shortener-form__toggle-group .link-shortener-form__label {
+.link-shortener-form__toggle-group .input__label {
 	margin-bottom: 0;
 }
 
-.link-shortener-form__input,
-.link-shortener-form__input-url,
-.link-shortener-form__button {
+.input__content-input,
+.input__content-input-url,
+.submit-button__content {
 	position: relative;
 	z-index: 1;
 }
 
-.link-shortener-form__input {
+.input__content-input {
 	padding: .75rem 1rem;
 	width: 100%;
 
@@ -289,15 +289,15 @@ button {
 	color: var(--color-netural-500);
 }
 
-.link-shortener-form__input:focus {
+.input__content-input:focus {
 	outline: none;
 }
 
-.link-shortener-form__input::placeholder {
+.input__content-input::placeholder {
 	color: var(--color-netural-400);
 }
 
-.link-shortener-form__input-wrapper {
+.input__content-wrapper {
 	position: relative;
 
 	padding: 1px;
@@ -307,23 +307,23 @@ button {
 	transition: background-color 1500ms ease;
 }
 
-.link-shortener-form__input-wrapper:focus-within {
+.input__content-wrapper:focus-within {
 	background-color: var(--color-primary);
 }
 
-.link-shortener-form__input-wrapper--identifier {
+.input__content-wrapper--identifier {
 	display: flex;
 	align-items: stretch;
 }
 
-.link-shortener-form__input-wrapper--identifier > .link-shortener-form__input-url {
+.input__content-wrapper--identifier > .input__content-input-url {
 	border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
-.link-shortener-form__input-wrapper--identifier > .link-shortener-form__input {
+.input__content-wrapper--identifier > .input__content-input {
 	border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
-.link-shortener-form__input-url {
+.input__content-input-url {
 	padding-left: var(--spacing-1x);
 
 	display: flex;
@@ -343,7 +343,7 @@ button {
 	background-color: transparent;
 }
 
-.link-shortener-form__button {
+.submit-button__content {
 	width: 100%;
 
 	padding-block: .75rem;
@@ -358,23 +358,23 @@ button {
 	transition: all 150ms ease;
 }
 
-.link-shortener-form__button[data-state='default'] .link-shortener-form__button-default-state,
-.link-shortener-form__button-loading-state {
+.submit-button__content[data-state='default'] .submit-button__content-default-state,
+.submit-button__content-loading-state {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
 }
 
-.link-shortener-form__button-default-state {
+.submit-button__content-default-state {
 	transition: all 150ms ease;
 }
 
-.link-shortener-form__button-loading-state {
+.submit-button__content-loading-state {
 	padding-block: 4px;
 }
 
-.link-shortener-form__button-loading-state svg {
+.submit-button__content-loading-state svg {
 	animation: rotate 1s infinite ease;
 }
 
@@ -387,28 +387,28 @@ button {
 	}
 }
 
-.link-shortener-form__button[data-state='loading'] .link-shortener-form__button-default-state,
-.link-shortener-form__button[data-state='default'] .link-shortener-form__button-loading-state {
+.submit-button__content[data-state='loading'] .submit-button__content-default-state,
+.submit-button__content[data-state='default'] .submit-button__content-loading-state {
 	display: none;
 }
 
-.link-shortener-form__button-icon {
+.submit-button__content-icon {
 	fill: var(--color-netural-900);
 	transition: all 150ms ease;
 }
 
-.link-shortener-form__button:where(:hover, :focus, [data-state='loading']) {
+.submit-button__content:where(:hover, :focus, [data-state='loading']) {
 	outline: none;
 	background-color: var(--color-netural-800);
 
 	color: var(--color-primary);
 }
 
-.link-shortener-form__button:is(:hover, :focus) .link-shortener-form__button-default-state {
+.submit-button__content:is(:hover, :focus) .submit-button__content-default-state {
 	gap: 1rem;
 }
 
-.link-shortener-form__button:where(:hover, :focus, [data-state='loading']) .link-shortener-form__button-icon {
+.submit-button__content:where(:hover, :focus, [data-state='loading']) .submit-button__content-icon {
 	fill: var(--color-primary);
 }
 
