@@ -65,14 +65,6 @@ function toggleCaptchaVerificationBox(event, visible) {
 	}
 }
 
-function generateCaptchaWidget() {
-	grecaptcha.render('recaptcha', {
-		'sitekey': '6LcEdiwkAAAAAKRKlYksI7YRzHv4nk-RzxiHgsJu',
-		'theme': 'dark',
-		'callback': 'submitURL'
-	});
-}
-
 async function submitURL(userCaptchaResponse) {
 	toggleCaptchaVerificationBox(null, false);
 	const submitButton = document.getElementById('link-shortener-submit');
