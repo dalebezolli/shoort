@@ -190,7 +190,6 @@ button {
 	background-color: var(--color-netural-800);
 }
 
-.link-shortener-form::before,
 .form-border,
 .link-shortener-form__input-border {
 	content: '';
@@ -208,19 +207,14 @@ button {
 	transition: all 250ms;
 }
 
-.link-shortener-form::before {
-	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-netural-400-10), transparent 80%);
-}
-
 .form-border {
-	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-netural-400-30), transparent 65%);
+	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-netural-400-30), transparent);
 }
 
 .link-shortener-form__input-border {
-	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-primary), transparent 40%);
+	background: radial-gradient(200px circle at var(--highlight-X) var(--highlight-Y), var(--color-primary), transparent 60%);
 }
 
-.link-shortener-form:hover::before,
 .form:hover .form-border,
 .form:hover .link-shortener-form__input-border {
 	opacity: 1;
@@ -297,10 +291,6 @@ button {
 	color: var(--color-netural-400);
 }
 
-.link-shortener-form__input--right-rounded {
-	border-radius: 0 var(--border-radius) var(--border-radius) 0;
-}
-
 .link-shortener-form__input-wrapper {
 	position: relative;
 
@@ -308,7 +298,7 @@ button {
 
 	border-radius: var(--border-radius);
 
-	transition: background-color 150ms ease;
+	transition: background-color 1500ms ease;
 }
 
 .link-shortener-form__input-wrapper:focus-within {
