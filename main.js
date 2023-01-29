@@ -232,4 +232,10 @@ function focusInput(name) {
 	document.querySelector(`input[name='${name}']`).focus();
 }
 
+window.addEventListener('DOMContentLoaded', (event) => {
+	const target = this.document.querySelector('#input-url');
+
+	target.textContent = `${window.location.host}/`;
+});
+
 checkFormValidationAndUpdateUser();
