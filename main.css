@@ -168,6 +168,13 @@ button {
 	font-weight: bold;
 }
 
+.features__feature p {
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+}
+
 /* FORM */
 .form {
 	position: relative;
@@ -625,12 +632,4 @@ button {
 	.features__title {
 		text-align: center;
 	}
-
-	.features__feature p {
-		width: 100%;
-
-		display: flex;
-		justify-content: space-between;
-	}
-
 }
