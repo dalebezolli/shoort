@@ -228,4 +228,8 @@ function handleOnMouseMoveFormHighlight(event) {
 	target.style.setProperty('--highlight-Y', highlightY + 'px');
 }
 
+function focusInput(name) {
+	document.querySelector(`input[name='${name}']`).focus();
+}
+
 checkFormValidationAndUpdateUser();
