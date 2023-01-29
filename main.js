@@ -1,5 +1,8 @@
 const form = document.getElementById('link-shortener-form');
-const formElements = Array.from(form.elements);
+let formElements;
+if(form) {
+	 formElements = Array.from(form.elements);
+}
 
 function checkFormValidationAndUpdateUser() {
 	if(!form) return;
@@ -54,24 +57,24 @@ function setGlobalError(errorMessage) {
 	generalErrorContainer.classList.add('general-error-container--show');
 }
 
-function toggleCaptchaVerificationBox(event, visible) {
-	if(event) event.preventDefault();
+function nextFormPage(event) {
+	event.preventDefault();
 
-	const captcha = document.querySelector('.captcha-shadow');
-	if(visible) {
-		captcha.classList.add('captcha--show');
-	} else {
-		captcha.classList.remove('captcha--show');
+	const isFormValid = form.checkValidity();
+	if(!isFormValid) return;
+
+	currentPage = parseInt(form.getAttribute('data-visible-page'));
+	form.style.height = `${form.clientHeight}px`;
+	form.setAttribute('data-visible-page', currentPage + 1);
+
+	if(currentPage + 1 === 2) {
+		generateCaptchaWidget();
 	}
 }
 
 async function submitURL(userCaptchaResponse) {
-	toggleCaptchaVerificationBox(null, false);
 	const submitButton = document.getElementById('link-shortener-submit');
 	submitButton.disabled = 'disabled';
-
-	const isFormValid = form.checkValidity();
-	if(!isFormValid) return;
 
 	submitButton.setAttribute('data-state', 'loading');
 
@@ -80,6 +83,8 @@ async function submitURL(userCaptchaResponse) {
 	const  dataObject = {};
 	data.forEach((value, key) => dataObject[key] = value);
 	dataObject['g-recaptcha-response'] = userCaptchaResponse;
+
+	console.log(dataObject);
 
 	const response = await fetch(url, {
 		method: 'POST',

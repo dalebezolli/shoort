@@ -186,8 +186,17 @@ button {
 }
 
 .form__content {
-
 	position: relative;
+	overflow: hidden;
+
+	border-radius: var(--border-radius);
+	background-color: var(--color-netural-800);
+}
+
+.form__content-wrapper {
+	position: relative;
+
+	height: 100%;
 
 	padding: var(--spacing-2x);
 	padding-bottom: var(--spacing-4x);
@@ -198,6 +207,31 @@ button {
 
 	border-radius: var(--border-radius);
 	background-color: var(--color-netural-800);
+
+	transition: transform 500ms cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.form__content-wrapper:nth-child(2) {
+	margin: 1px;
+
+	position: absolute;
+	inset: 0;
+
+	transform: translateX(100%);
+}
+
+.form__content[data-visible-page='2'] .form__content-wrapper:nth-child(1) {
+	transform: translateX(-100%);
+}
+
+.form__content[data-visible-page='2'] .form__content-wrapper:nth-child(2) {
+	transform: translateX(0);
+}
+
+.form__content-wrapper--center {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .form-border,
@@ -261,24 +295,6 @@ button {
 
 	font-size: .875rem;
 	color: var(--color-red-400);
-}
-
-.link-shortener-form__toggle-group-height-transition {
-	height: 3rem;
-	overflow: hidden;
-	transition: height 150ms ease;
-}
-
-.link-shortener-form__toggle-group {
-	margin-bottom: var(--spacing-1x);
-
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-1x);
-}
-
-.link-shortener-form__toggle-group .input__label {
-	margin-bottom: 0;
 }
 
 .input__content-input,
@@ -422,6 +438,13 @@ button {
 	fill: var(--color-primary);
 }
 
+.recaptcha__prompt {
+	padding-inline: 2rem;
+
+	font-size: 1.5rem;
+	text-align: center;
+}
+
 .general-error-container {
 	position: absolute;
 	top: -4rem;
@@ -442,41 +465,6 @@ button {
 
 .general-error-container--show {
 	top: 0;
-}
-
-.captcha-shadow {
-	position: absolute;
-	inset: 0;
-	z-index: 10;
-
-	display: none;
-	place-content: center;
-
-	background-color: var(--color-netural-900-90);
-}
-
-.captcha--show {
-	display: grid;
-}
-
-.captcha-container-border {
-	padding: 1px;
-
-	border-radius: var(--border-radius);
-	background-image: linear-gradient(160deg, var(--color-netural-700), transparent);
-}
-
-.captcha-container-content {
-	padding-block: var(--spacing-3x) var(--spacing-4x);
-	padding-inline: var(--spacing-6x);
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: var(--spacing-2x);
-
-	border-radius: var(--border-radius);
-	background-color: var(--color-netural-800);
 }
 
 /* SUCCESS PAGE */
