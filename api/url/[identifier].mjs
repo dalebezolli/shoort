@@ -6,17 +6,16 @@ import  getErrorObject from '../../js/serverErrorHandling.mjs';
 export default async function helper(req, res) {
 	let databaseConnection;
 
+	const identifier = req.query.identifier;
 	const dataOrigin = {
 		host: req.headers.origin,
 		ip : req.connection.remoteAddress,
 		method: req.method,
-		path: 'api/url'
+		path: `api/url/${identifier}`
 	}
 
 	try {
 		if(req.method !== 'GET') throw 'RESOURCE_NOT_FOUND';
-
-		const identifier = req.query.identifier;
 
 		const databaseConnection = await mysql.createConnection(process.env.DATABASE_URL);
 		databaseConnection.connect();
