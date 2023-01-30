@@ -125,37 +125,6 @@ async function submitURL(userCaptchaResponse) {
 	window.location.assign('/success.html');
 }
 
-function toggleControl(event, inputId) {
-	const customNameInputField = document.querySelector(`input[name="${inputId}"]`);
-	const customNameErrorMessageContainer = document.getElementById(`${inputId}-error`);
-	const customNameInputContainer = document.getElementById(`${inputId}-container`);
-	const customNameInputToggleGroup = document.getElementById(`${inputId}-toggle-group`);
-
-	if(customNameInputToggleGroup) {
-		if(event.target.checked) {
-			customNameInputToggleGroup.style.height = '6.25rem';
-		} else {
-			customNameInputToggleGroup.style.height = '';
-		}
-	}
-
-	if(event.target.checked) {
-		customNameInputContainer.classList.remove('link-shortener-form__input-border--hidden');
-		customNameInputField.setAttribute('required', '');
-	} else {
-		customNameInputContainer.classList.add('link-shortener-form__input-border--hidden');
-		customNameInputField.value = '';
-		customNameInputField.removeAttribute('required');
-		customNameErrorMessageContainer.setAttribute('hidden', '');
-		customNameErrorMessageContainer.textContent = '';
-	}
-}
-
-function toggleCheckboxes() {
-	document.querySelectorAll('input[type=\'checkbox\']').forEach(checkbox => checkbox.checked = false);
-	document.querySelector('input[name="identifier"]').value = '';
-}
-
 function sendUserToRedirectEndpoint() {
 	const searchParams = window.location.search;
 	if(searchParams === '') return;
