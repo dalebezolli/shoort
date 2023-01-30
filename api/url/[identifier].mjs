@@ -5,6 +5,14 @@ import  getErrorObject from '../../js/serverErrorHandling.mjs';
 
 export default async function helper(req, res) {
 	let databaseConnection;
+
+	const dataOrigin = {
+		host: req.headers.origin,
+		ip : req.connection.remoteAddress,
+		method: req.method,
+		path: 'api/url'
+	}
+
 	try {
 		if(req.method !== 'GET') throw 'RESOURCE_NOT_FOUND';
 
@@ -21,6 +29,7 @@ export default async function helper(req, res) {
 			)
 
 			data = rows;
+			
 		} catch(err) {
 			console.error(err);		
 
@@ -32,6 +41,15 @@ export default async function helper(req, res) {
 		
 		if(data.length === 0) throw 'DATABASE_LINK_NOT_FOUND';
 
+		await fetch(`https://cloud.axiom.co/api/v1/datasets/vercel/ingest`, {
+			method: 'POST',
+			body: JSON.stringify([{request: dataOrigin, details: data[0]}]),
+			headers: {
+				'Authorization': `Bearer ${process.env.AXIOM_KEY}`,
+				'Content-Type': 'application/json'
+			},
+		});
+
 		databaseConnection.end();
 		return res.json({
 			'status': 'ok',
@@ -39,8 +57,16 @@ export default async function helper(req, res) {
 			'data': { 'link': data[0].link}
 		});
 	} catch(error) {
+		await fetch(`https://cloud.axiom.co/api/v1/datasets/vercel/ingest`, {
+			method: 'POST',
+			body: JSON.stringify([{request: dataOrigin, details: error}]),
+			headers: {
+				'Authorization': `Bearer ${process.env.AXIOM_KEY}`,
+				'Content-Type': 'application/json'
+			},
+		});
+
 		if(typeof error === 'object') {
-			console.log(error);
 			error = 'DATABASE_ERROR';
 		} else {
 			if(databaseConnection) databaseConnection.end();
