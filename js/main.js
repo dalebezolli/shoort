@@ -146,6 +146,7 @@ async function redirectToLink() {
 	const response = await request.json();
 	if(request.status !== 200) {
 		document.querySelector('#redirect-status').textContent = response.message;
+		document.querySelector('#loading').remove();
 		return;
 	}
 
