@@ -649,4 +649,25 @@ button {
 	.features__title {
 		text-align: center;
 	}
+
+	.form-border,
+	.input__content-border,
+	.submit-button__border {
+		opacity: 1;
+	}
+
+	.form-border {
+		--highlight-X: 0px;
+		--highlight-Y: 0px;
+	}
+
+	.form .form__content-wrapper div:nth-child(1) .input__content-wrapper .input__content-border {
+		--highlight-X: 0px;
+		--highlight-Y: -48px;
+	}
+
+	.form .form__content-wrapper div:nth-child(2) .input__content-wrapper .input__content-border {
+		--highlight-X: 200px;
+		--highlight-Y: 98px;
+	}
 }
