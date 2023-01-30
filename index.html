@@ -114,7 +114,7 @@
 							</div>
 
 							<div class="submit-button__content-loading-state">
-								<svg class="icon--primary-stroke" width="16" height="16" viewBox="0 0 20 20">
+								<svg class="icon--primary-stroke loading" width="16" height="16" viewBox="0 0 20 20">
 									<path d="M9.99994 2C5.58169 2 2 5.58169 2 9.99994C2 14.4182 5.58169 17.9999 9.99994 17.9999C14.2503 17.9999 17.7419 14.1853 18 9.99994" stroke-width="3" stroke-linecap="round"/>
 								</svg>
 							</div>
@@ -122,10 +122,23 @@
 					</div>
 				</div>
 
-				<div class="form__content-wrapper form__content-wrapper--center">
-					<h2 class="recaptcha__prompt">Confirm that you aren't a robot</h2>
+				<article class="form__content-wrapper form__content-wrapper--center">
+					<header class="form__content-header">
+						<h2 class="recaptcha__prompt">Confirm that you aren't a robot</h2>
+						<button class="form__back-button" onclick="setFormPage(event, 1)">
+							<svg width="16" height="16" viewBox="0 0 16 16" class="icon">
+								<path d="M8.2071 1.29289C8.5976 1.68342 8.5976 2.31658 8.2071 2.70711L3.91421 7H15.5C16.0523 7 16.5 7.4477 16.5 8C16.5 8.5523 16.0523 9 15.5 9H3.91421L8.2071 13.2929C8.5976 13.6834 8.5976 14.3166 8.2071 14.7071C7.8166 15.0976 7.1834 15.0976 6.7929 14.7071L0.79289 8.7071C0.60536 8.5196 0.5 8.2652 0.5 8C0.5 7.7348 0.60536 7.4804 0.79289 7.2929L6.7929 1.29289C7.1834 0.90237 7.8166 0.90237 8.2071 1.29289Z">
+							</svg>
+						</button>
+					</header>
 					<div id="recaptcha"></div>
-				</div>
+				</article>
+
+				<article class="form__content-wrapper form__content-wrapper--center">
+					<svg class="icon--primary-stroke loading" width="32" height="32" viewBox="0 0 20 20">
+						<path d="M9.99994 2C5.58169 2 2 5.58169 2 9.99994C2 14.4182 5.58169 17.9999 9.99994 17.9999C14.2503 17.9999 17.7419 14.1853 18 9.99994" stroke-width="3" stroke-linecap="round"/>
+					</svg>
+				</article>
 			</form>	
 		</div>
 

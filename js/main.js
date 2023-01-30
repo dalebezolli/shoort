@@ -72,6 +72,7 @@ function setFormPage(event, page) {
 }
 
 async function submitURL(userCaptchaResponse) {
+	setFormPage(null, 3);
 	const submitButton = document.getElementById('link-shortener-submit');
 	submitButton.disabled = 'disabled';
 
