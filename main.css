@@ -306,7 +306,7 @@ button {
 }
 
 .form__back-button {
-	margin-left: 8px;
+	margin-left: calc(-1 * var(--spacing-1x));
 	padding: var(--spacing-1x);
 	
 	border: none;
