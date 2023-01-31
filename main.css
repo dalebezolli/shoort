@@ -520,7 +520,7 @@ button {
 
 .shortened-url__wrapper {
 	height: 100%;
-	overflow: scroll;
+	overflow-y: auto;
 }
 
 .shortened-url__text {
