@@ -78,6 +78,7 @@ button {
 
 .icon--primary-stroke {
 	stroke: var(--color-primary);
+	fill: transparent;
 }
 
 .coming-soon {
