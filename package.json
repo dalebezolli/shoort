@@ -20,5 +20,8 @@
     "dotenv": "^16.0.3",
     "mysql2": "^3.0.1",
     "node-fetch": "^3.3.0"
+  },
+  "devDependencies": {
+    "vercel": "^28.16.6"
   }
 }
