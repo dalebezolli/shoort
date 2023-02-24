@@ -35,3 +35,7 @@ Clone the repository and run `npm install`, finally you can start developing wit
 ## Contributing
 
 If you have a great idea or found any kind of bug, feel free to fork the project and create a pull request.
+
+## License
+
+Published under the [MIT License](./LICENCE).
