@@ -117,6 +117,8 @@ button {
 }
 
 .index__flex {
+	max-width: 54.75rem;
+
 	margin-block: var(--spacing-4x) var(--spacing-8x);
 	margin-inline: auto;
 
@@ -669,6 +671,28 @@ button {
 	text-align: center;
 }
 
+.site-footer__content {
+	margin-inline: auto;
+
+	width: fit-content;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: start;
+	gap: var(--spacing-1x);
+}
+
+.site-footer__row {
+	display: flex;
+	gap: var(--spacing-2x);
+}
+
+.site-footer__logo {
+	font-size: 2rem;
+	color: var(--color-primary);
+}
+
 .attribution-text {
 	font-style: normal;
 }
@@ -676,6 +700,20 @@ button {
 .attribution-link {
 	font-weight: 700;
 	color: var(--color-primary);
+}
+
+.social-wrapper {
+	display: flex;
+	gap: var(--spacing-1x);
+}
+
+.social-button {
+	fill: var(--color-netural-400);
+	cursor: pointer;
+}
+
+.social-button:where(:hover, :focus) {
+	fill: var(--color-primary);
 }
 
 @media (max-width: 49.75rem) {
