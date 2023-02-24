@@ -121,26 +121,62 @@ async function submitURL(userCaptchaResponse) {
 	}
 
 	submitButton.disabled = '';
-	sessionStorage.setItem('identifier', responseData.identifier);
-	window.location.assign('/success.html');
-}
 
-function sendUserToRedirectEndpoint() {
-	const searchParams = window.location.search;
-	if(searchParams === '') return;
+	const domain = window.location.host;
+	const shortenedURL = `https://${domain}/${responseData.identifier}`;
+	const qrCode = await generateQRCode(shortenedURL);
 
-	const identifier = searchParams.split('=')[1];
-	const url = `./api/url/${identifier}`;
+	document.title = 'Shoort - Success';
+	const main = document.getElementsByTagName('main')[0];
+	main.classList.remove('index__flex');
+	main.classList.add('old-main');
+	main.innerHTML = `
+		<div>
+			<header class="site-header">
+				<h1 class="site-header__title">Shoort</h1>	
+			</header>
+			
+			<main class="old-main">
+				<article class="success-article">
+					<header class="success-article__header">
+						<h2 class="success-article__title">Great! Now you have a shorter url</h2>
+						<p>Use the url or scan the QR code to visit your website</p>
+					</header>
 
-	window.location.replace('/redirect.html');
-	sessionStorage.setItem('apiQuery', url);
+					${qrCode.outerHTML}
+
+					<div class="shortened-url-block">
+						<div class="shortened-url">
+							<div class="shortened-url__wrapper">
+								<p class="shortened-url__text" id="shortened-url">${shortenedURL}</p>
+							</div>
+						</div>
+						<button class="copy-url-button" onmouseup="copyUrlToClipboard(event)" data-state="default">
+							<div class="copy-url-button__default-state">
+								<svg class="copy-url-button__icon" viewBox="0 0 24 24" height="18" width="18">
+									<path d="M2 4C2 2.89543 2.89543 2 4 2H14C15.1046 2 16 2.89543 16 4V8H20C21.1046 8 22 8.89543 22 10V20C22 21.1046 21.1046 22 20 22H10C8.89543 22 8 21.1046 8 20V16H4C2.89543 16 2 15.1046 2 14V4ZM10 16V20H20V10H16V14C16 15.1046 15.1046 16 14 16H10ZM14 14V4L4 4V14H14Z"></path>
+								</svg>
+								Copy
+							</div>
+
+							<div class="copy-url-button__active-state">
+								Copied !
+							</div>
+						</button>
+					</div>
+
+					<button class="go-back-button" onmouseup="goBackToRoot()">Shorten another url</button>
+				</article>
+			</main>
+
+		</div>
+	`;
 }
 
 async function redirectToLink() {
-	url = sessionStorage.getItem('apiQuery');
-	if(!url) {
-		window.location.assign('/');
-	}
+	const searchParams = window.location.search;
+	const identifier = searchParams.split('=')[1];
+	const url = `./api/url/${identifier}`;
 
 	const request = await fetch(url, {method: 'GET'});
 	const response = await request.json();
@@ -154,15 +190,7 @@ async function redirectToLink() {
 	window.location.replace(response.data.link);
 }
 
-async function loadUrlFromLocalStorage() {
-	const domain = window.location.host;
-	const savedUrlPath = sessionStorage.getItem('identifier');
-	const shortenedUrlParagraph = document.getElementById('shortened-url');
-	if(!savedUrlPath) {
-		window.location.assign('/');
-	}
-
-	const url = `https://${domain}/l/${savedUrlPath}`;
+async function generateQRCode(url) {
 	const request = await fetch(`https://qrapi.vercel.app/api/generate?text=${url}`);
 	const response = await request.json();
 	if(request.status !== 200) {
@@ -175,8 +203,7 @@ async function loadUrlFromLocalStorage() {
 	qrCode.height = 200;
 	qrCode.src = response.code;
 
-	document.getElementById('qrcode').replaceChildren(qrCode);
-	shortenedUrlParagraph.textContent = url;
+	return qrCode;
 }
 
 function copyUrlToClipboard(event) {
