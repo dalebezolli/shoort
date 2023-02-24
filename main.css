@@ -113,7 +113,7 @@ button {
 	margin-inline: auto;
 	margin-bottom: var(--spacing-4x);
 	padding-inline: var(--spacing-1x);
-	max-width: 28rem;
+	max-width: max-content;
 }
 
 .index__flex {
@@ -499,9 +499,42 @@ button {
 
 /* SUCCESS PAGE */
 /* MAIN */
+.success-article {
+	padding: var(--spacing-2x);
+
+	width: max-content;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-2x);
+
+	border-radius: var(--border-radius);
+	background-color: var(--color-netural-800);
+}
+
+.success-article__header {
+	margin-bottom: var(--spacing-2x);
+
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.success-article__title {
+	font-size: 1.5rem;
+}
+
+.success-article__qr-code {
+	width: 200px;
+	height: 200px;
+
+	border-radius: var(--border-radius);
+}
+
 .shortened-url-block {
-	margin-top: var(--spacing-1x);
-	margin-bottom: var(--spacing-4x);
+	margin-top: var(--spacing-2x);
+	align-self: stretch;
 
 	display: flex;
 	justify-content: space-between;

@@ -154,7 +154,7 @@ async function redirectToLink() {
 	window.location.replace(response.data.link);
 }
 
-function loadUrlFromLocalStorage() {
+async function loadUrlFromLocalStorage() {
 	const domain = window.location.host;
 	const savedUrlPath = sessionStorage.getItem('identifier');
 	const shortenedUrlParagraph = document.getElementById('shortened-url');
@@ -162,7 +162,21 @@ function loadUrlFromLocalStorage() {
 		window.location.assign('/');
 	}
 
-	shortenedUrlParagraph.textContent = `${domain}/l/${savedUrlPath}`;
+	const url = `https://${domain}/l/${savedUrlPath}`;
+	const request = await fetch(`https://qrapi.vercel.app/api/generate?text=${url}`);
+	const response = await request.json();
+	if(request.status !== 200) {
+		console.error('Cannot fetch qr code');
+	}
+
+	const qrCode = document.createElement('img');
+	qrCode.classList.add('success-article__qr-code');
+	qrCode.width = 200;
+	qrCode.height = 200;
+	qrCode.src = response.code;
+
+	document.getElementById('qrcode').replaceChildren(qrCode);
+	shortenedUrlParagraph.textContent = url;
 }
 
 function copyUrlToClipboard(event) {
